@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 function Sidebar({ isDrawerOpen, closeDrawer }) {
     // State for managing dropdowns
@@ -116,7 +117,7 @@ function Sidebar({ isDrawerOpen, closeDrawer }) {
                                     clipRule="evenodd"
                                 ></path>
                             </svg>
-                            <span className="flex-1 ml-3 text-left whitespace-nowrap">Pages</span>
+                            <span className="flex-1 ml-3 text-left whitespace-nowrap">Projects</span>
                             <svg
                                 aria-hidden="true"
                                 className="w-6 h-6"
@@ -137,12 +138,12 @@ function Sidebar({ isDrawerOpen, closeDrawer }) {
                                 className="py-2 space-y-2"
                             >
                                 <li>
-                                    <a
-                                        href="#"
+                                    <NavLink
+                                        to="/enrolled-projects"
                                         className="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                                     >
-                                        Settings
-                                    </a>
+                                        Enrolled Projects
+                                    </NavLink>
                                 </li>
                                 <li>
                                     <a

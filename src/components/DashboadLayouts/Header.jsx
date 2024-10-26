@@ -1,4 +1,4 @@
-// Header.jsx
+// src/components/Header.jsx
 import React, { useState, useEffect, useRef } from 'react';
 
 function Header({ toggleDrawer }) {
@@ -6,6 +6,9 @@ function Header({ toggleDrawer }) {
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
     const [isAppsDropdownOpen, setIsAppsDropdownOpen] = useState(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
+    // Dark mode state
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
     // Refs for detecting clicks outside the dropdowns
     const notificationRef = useRef(null);
@@ -16,6 +19,36 @@ function Header({ toggleDrawer }) {
     const toggleNotification = () => setIsNotificationOpen(!isNotificationOpen);
     const toggleAppsDropdown = () => setIsAppsDropdownOpen(!isAppsDropdownOpen);
     const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen);
+
+    // Handler to toggle dark mode
+    const toggleDarkMode = () => {
+        setIsDarkMode((prevMode) => !prevMode);
+    };
+
+    // Effect to initialize dark mode based on user preference or system settings
+    useEffect(() => {
+        // Check for saved user preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            setIsDarkMode(savedTheme === 'dark');
+        } else {
+            // If no preference, use system preference
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            setIsDarkMode(prefersDark);
+        }
+    }, []);
+
+    // Effect to apply/remove dark mode class and persist preference
+    useEffect(() => {
+        const root = window.document.documentElement;
+        if (isDarkMode) {
+            root.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            root.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+        }
+    }, [isDarkMode]);
 
     // Close dropdowns when clicking outside
     useEffect(() => {
@@ -48,7 +81,7 @@ function Header({ toggleDrawer }) {
 
     return (
         <nav
-            className="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50"
+            className="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50 transition-colors duration-300"
             aria-label="Main Navigation"
         >
             <div className="flex justify-between items-center">
@@ -59,7 +92,7 @@ function Header({ toggleDrawer }) {
                         onClick={toggleDrawer}
                         aria-controls="drawer-navigation"
                         aria-expanded="false"
-                        className="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 dark:focus:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700"
+                        className="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 dark:focus:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 transition-colors duration-300"
                     >
                         {/* Hamburger Icon */}
                         <svg
@@ -85,7 +118,7 @@ function Header({ toggleDrawer }) {
                             className="mr-3 h-8"
                             alt="Flowbite Logo"
                         />
-                        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+                        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white transition-colors duration-300">
                             Flowbite
                         </span>
                     </a>
@@ -115,7 +148,7 @@ function Header({ toggleDrawer }) {
                             type="text"
                             name="search"
                             id="topbar-search"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 transition-colors duration-300"
                             placeholder="Search"
                         />
                     </div>
@@ -123,6 +156,42 @@ function Header({ toggleDrawer }) {
 
                 {/* Right Section */}
                 <div className="flex items-center space-x-4">
+                    {/* Dark Mode Toggler */}
+                    <button
+                        onClick={toggleDarkMode}
+                        className="p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 transition-colors duration-300"
+                        aria-label="Toggle Dark Mode"
+                    >
+                        {isDarkMode ? (
+                            // Sun Icon for Light Mode
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-6 h-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M12 3v1m0 16v1m8.66-9h-1M4.34 12h-1m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z"
+                                />
+                            </svg>
+                        ) : (
+                            // Moon Icon for Dark Mode
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-6 h-6"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                aria-hidden="true"
+                            >
+                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                            </svg>
+                        )}
+                    </button>
+
                     {/* Notifications Button */}
                     <div className="relative" ref={notificationRef}>
                         <button
@@ -130,7 +199,7 @@ function Header({ toggleDrawer }) {
                             onClick={toggleNotification}
                             aria-haspopup="true"
                             aria-expanded={isNotificationOpen}
-                            className="p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                            className="p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 transition-colors duration-300"
                         >
                             <span className="sr-only">View notifications</span>
                             {/* Bell Icon */}
@@ -148,7 +217,7 @@ function Header({ toggleDrawer }) {
                         {/* Notification Dropdown */}
                         {isNotificationOpen && (
                             <div
-                                className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-lg dark:bg-gray-700 z-50"
+                                className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-lg dark:bg-gray-700 z-50 transition-opacity duration-300"
                             >
                                 <div className="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-600 dark:text-gray-300">
                                     Notifications
@@ -157,7 +226,7 @@ function Header({ toggleDrawer }) {
                                     {/* Notification Item 1 */}
                                     <a
                                         href="#"
-                                        className="flex py-3 px-4 hover:bg-gray-100 dark:hover:bg-gray-600"
+                                        className="flex py-3 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-300"
                                     >
                                         <div className="flex-shrink-0 relative">
                                             <img
@@ -199,7 +268,7 @@ function Header({ toggleDrawer }) {
                                     {/* Notification Item 2 */}
                                     <a
                                         href="#"
-                                        className="flex py-3 px-4 hover:bg-gray-100 dark:hover:bg-gray-600"
+                                        className="flex py-3 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-300"
                                     >
                                         <div className="flex-shrink-0 relative">
                                             <img
@@ -243,7 +312,7 @@ function Header({ toggleDrawer }) {
                                 </div>
                                 <a
                                     href="#"
-                                    className="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:text-white dark:hover:underline"
+                                    className="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:text-white dark:hover:underline transition-colors duration-300"
                                 >
                                     <div className="inline-flex items-center">
                                         {/* Search Icon */}
@@ -270,6 +339,7 @@ function Header({ toggleDrawer }) {
                                 </a>
                             </div>
                         )}
+
                     </div>
 
                     {/* Apps Dropdown */}
@@ -279,7 +349,7 @@ function Header({ toggleDrawer }) {
                             onClick={toggleAppsDropdown}
                             aria-haspopup="true"
                             aria-expanded={isAppsDropdownOpen}
-                            className="p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                            className="p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 transition-colors duration-300"
                         >
                             <span className="sr-only">View apps</span>
                             {/* Apps Icon */}
@@ -303,7 +373,7 @@ function Header({ toggleDrawer }) {
                         {/* Apps Dropdown Menu */}
                         {isAppsDropdownOpen && (
                             <div
-                                className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg dark:bg-gray-700 z-50"
+                                className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg dark:bg-gray-700 z-50 transition-opacity duration-300"
                             >
                                 <div className="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-600 dark:text-gray-300">
                                     Apps
@@ -312,7 +382,7 @@ function Header({ toggleDrawer }) {
                                     {/* App 1 */}
                                     <a
                                         href="#"
-                                        className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
+                                        className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group transition-colors duration-300"
                                     >
                                         <svg
                                             aria-hidden="true"
@@ -333,7 +403,7 @@ function Header({ toggleDrawer }) {
                                     {/* App 2 */}
                                     <a
                                         href="#"
-                                        className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
+                                        className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group transition-colors duration-300"
                                     >
                                         <svg
                                             aria-hidden="true"
@@ -352,7 +422,7 @@ function Header({ toggleDrawer }) {
                                     {/* App 3 */}
                                     <a
                                         href="#"
-                                        className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
+                                        className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group transition-colors duration-300"
                                     >
                                         <svg
                                             aria-hidden="true"
@@ -378,7 +448,7 @@ function Header({ toggleDrawer }) {
                                     {/* App 4 */}
                                     <a
                                         href="#"
-                                        className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
+                                        className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group transition-colors duration-300"
                                     >
                                         <svg
                                             aria-hidden="true"
@@ -409,7 +479,7 @@ function Header({ toggleDrawer }) {
                             onClick={toggleUserMenu}
                             aria-haspopup="true"
                             aria-expanded={isUserMenuOpen}
-                            className="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                            className="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 transition-colors duration-300"
                             id="user-menu-button"
                         >
                             <span className="sr-only">Open user menu</span>
@@ -423,7 +493,7 @@ function Header({ toggleDrawer }) {
                         {/* User Dropdown Menu */}
                         {isUserMenuOpen && (
                             <div
-                                className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg dark:bg-gray-700 z-50"
+                                className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg dark:bg-gray-700 z-50 transition-opacity duration-300"
                             >
                                 <div className="py-3 px-4">
                                     <span className="block text-sm font-semibold text-gray-900 dark:text-white">
@@ -438,7 +508,7 @@ function Header({ toggleDrawer }) {
                                     <li>
                                         <a
                                             href="#"
-                                            className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                            className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white transition-colors duration-300"
                                         >
                                             My profile
                                         </a>
@@ -447,7 +517,7 @@ function Header({ toggleDrawer }) {
                                     <li>
                                         <a
                                             href="#"
-                                            className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                            className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white transition-colors duration-300"
                                         >
                                             Account settings
                                         </a>
@@ -458,7 +528,7 @@ function Header({ toggleDrawer }) {
                                     <li>
                                         <a
                                             href="#"
-                                            className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                            className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white transition-colors duration-300"
                                         >
                                             Sign out
                                         </a>
@@ -471,6 +541,7 @@ function Header({ toggleDrawer }) {
             </div>
         </nav>
     );
+
 }
 
 export default Header;

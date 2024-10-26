@@ -17,14 +17,8 @@ const initialState = {
 export const signIn = createAsyncThunk(
   'auth/signIn',
   async ({ user_email, password, role }, { rejectWithValue }) => {
-    let apiUrl = '';
-    if (role === 'Admin') {
-      apiUrl = 'http://localhost:8080/user/admin/signIn';
-    } else if (role === 'Instructor') {
-      apiUrl = 'http://localhost:8080/user/instructor/signIn';
-    } else if (role === 'Student') {
-      apiUrl = 'http://localhost:8080/user/student/signIn';
-    }
+    const SERVER_URL = process.env.SERVER_URL;
+    const apiUrl = `http://localhost:8000/user/signIn`;
 
     try {
       const response = await axios.post(
@@ -46,9 +40,9 @@ export const signUp = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     let apiUrl = '';
     if (formData.role === 'Instructor') {
-      apiUrl = 'http://localhost:8080/user/instructor/signUp';
+      apiUrl = 'http://localhost:8000/user/instructor/signUp';
     } else if (formData.role === 'Student') {
-      apiUrl = 'http://localhost:8080/user/student/signUp';
+      apiUrl = 'http://localhost:8000/user/student/signUp';
     }
 
     try {

@@ -8,7 +8,7 @@ import AboutUs from './pages/AboutUs';
 import NotFound from './pages/NotFound';
 import Dashboard from './components/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
-
+import EnrolledProjects from './pages/Student/EnroledProjects/Index';
 function App() {
   return (
     <BrowserRouter>
@@ -23,6 +23,14 @@ function App() {
           element={
             <PrivateRoute>
               <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/enrolled-projects"
+          element={
+            <PrivateRoute>
+              <EnrolledProjects />
             </PrivateRoute>
           }
         />
