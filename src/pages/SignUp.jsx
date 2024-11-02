@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
-import { signUp } from '../Auth/authSlice';
+import { signUp } from '../redux/authSlice';
 
 function SignUp() {
   const dispatch = useDispatch();

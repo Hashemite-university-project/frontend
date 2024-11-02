@@ -1,12 +1,14 @@
 // src/features/auth/authSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 
 // Define the initial state
 const initialState = {
+  users: [],
   user: null,
-  accessToken: null,
+  accessToken: Cookies.get('token') || null,
   refreshToken: null,
   role: null,
   loading: false,
@@ -17,7 +19,6 @@ const initialState = {
 export const signIn = createAsyncThunk(
   'auth/signIn',
   async ({ user_email, password, role }, { rejectWithValue }) => {
-    const SERVER_URL = process.env.SERVER_URL;
     const apiUrl = `http://localhost:8000/user/signIn`;
 
     try {
@@ -26,9 +27,9 @@ export const signIn = createAsyncThunk(
         { user_email, password },
         { withCredentials: true }
       );
+      Cookies.set('token', response.data.access_token, { expires: 7, secure: true });
       return response.data;
     } catch (error) {
-      // Return a rejected action containing the error message
       return rejectWithValue(error.response?.data || 'Sign In Failed');
     }
   }
@@ -54,18 +55,56 @@ export const signUp = createAsyncThunk(
   }
 );
 
+// Async thunk for fetching user data
+export const fetchUserData = createAsyncThunk('auth/fetchUserData', async (_, thunkAPI) => {
+  try {
+    const token = Cookies.get('token');
+    
+    if (!token) {
+      return thunkAPI.rejectWithValue({ status: 401, message: 'No token provided' });
+    }
+    
+    const response = await axios.get('http://localhost:8000/user/info', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    
+    console.log(response);
+    return response.data.user;
+  } catch (error) {
+    if (error.response) {
+      if (error.response.status === 401) {
+        return thunkAPI.rejectWithValue({ status: 401, message: 'Unauthorized, no token' });
+      } else if (error.response.status === 403) {
+        return thunkAPI.rejectWithValue({ status: 403, message: 'Session expired, please log in again' });
+      }
+    }
+    
+    return thunkAPI.rejectWithValue({ status: error.response?.status, message: 'An error occurred' });
+  }
+});
+
+// Async thunk for fetching all users
+export const fetchUsers = createAsyncThunk('auth/fetchUsers', async (_, thunkAPI) => {
+  try {
+    const response = await axios.get('http://localhost:8000/user/getAllUsers');
+    return response.data.users;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data.message || 'An error occurred');
+  }
+});
+
 // Create the auth slice
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    // Action to log out the user
     logout(state) {
       state.user = null;
       state.accessToken = null;
       state.refreshToken = null;
       state.role = null;
       state.error = null;
+      Cookies.remove('token');
       localStorage.removeItem('auth');
     },
     // Action to set authentication state from localStorage
@@ -86,12 +125,11 @@ const authSlice = createSlice({
       })
       .addCase(signIn.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload.user; // Adjust based on your API response
+        state.user = action.payload.user;
         state.accessToken = action.payload.access_token;
         state.refreshToken = action.payload.refresh_token;
         state.role = action.payload.role;
         state.error = null;
-        // Persist auth state in localStorage
         localStorage.setItem('auth', JSON.stringify(state));
       })
       .addCase(signIn.rejected, (state, action) => {
@@ -107,7 +145,6 @@ const authSlice = createSlice({
       })
       .addCase(signUp.fulfilled, (state, action) => {
         state.loading = false;
-        // Optionally, auto sign in after sign up
         Swal.fire({
           title: 'Success',
           text: 'Account created successfully! Please sign in.',
@@ -124,6 +161,30 @@ const authSlice = createSlice({
           icon: 'error',
           confirmButtonText: 'OK',
         });
+      });
+      fetchUserData()
+    // Fetch User Data
+    builder
+      .addCase(fetchUserData.fulfilled, (state, action) => {
+        state.user = action.payload;
+      })
+      .addCase(fetchUserData.rejected, (state, action) => {
+        state.error = action.payload?.message || action.error.message;
+        state.user = null;
+      });
+
+    // Fetch Users
+    builder
+      .addCase(fetchUsers.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.users = action.payload;
+        state.status = 'succeeded';
+      })
+      .addCase(fetchUsers.rejected, (state, action) => {
+        state.error = action.payload || action.error.message;
+        state.status = 'failed';
       });
   },
 });
