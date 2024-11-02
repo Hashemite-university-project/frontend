@@ -7,7 +7,6 @@ import { fetchUserData } from '../redux/authSlice';
 
 function Dashboard() {
     const dispatch = useDispatch();
-    const dispatch = useDispatch();
     const { role } = useSelector((state) => state.auth);
 
     useEffect(() => {
