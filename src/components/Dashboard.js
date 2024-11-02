@@ -2,7 +2,6 @@ import React from 'react';
 import AdminDashboard from '../pages/Admin/Dashboard';
 import InstructorDashboard from '../pages/Instructor/Dashboard';
 import StudentDashboard from '../pages/Student/Dashboard';
-import { fetchUserData } from '../redux/authSlice';
 
 function Dashboard() {
     // Retrieve auth data from local storage
