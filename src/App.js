@@ -9,6 +9,7 @@ import NotFound from './pages/NotFound';
 import Dashboard from './components/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
 import EnrolledProjects from './pages/Student/EnroledProjects/Index';
+import ViewProject from './components/Projects/ViewProject';
 function App() {
   return (
     <BrowserRouter>
@@ -33,7 +34,15 @@ function App() {
               <EnrolledProjects />
             </PrivateRoute>
           }
-        />
+        />        
+        <Route
+        path="/enrolled-projects/:id"
+        element={
+          <PrivateRoute>
+            <ViewProject />
+          </PrivateRoute>
+        }
+      />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
