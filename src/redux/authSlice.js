@@ -65,7 +65,7 @@ export const fetchUserData = createAsyncThunk('auth/fetchUserData', async (_, th
     }
     
     const response = await axios.get('http://localhost:8000/user/info', {
-      headers: { Authorization: `Bearer ${token}` }
+      withCredentials: true
     });
     
     console.log(response);
@@ -131,6 +131,8 @@ const authSlice = createSlice({
         state.role = action.payload.role;
         state.error = null;
         localStorage.setItem('auth', JSON.stringify(state));
+        // Dispatch fetchUserData to get user info after login
+        fetchUserData();
       })
       .addCase(signIn.rejected, (state, action) => {
         state.loading = false;
@@ -162,7 +164,7 @@ const authSlice = createSlice({
           confirmButtonText: 'OK',
         });
       });
-      fetchUserData()
+
     // Fetch User Data
     builder
       .addCase(fetchUserData.fulfilled, (state, action) => {
