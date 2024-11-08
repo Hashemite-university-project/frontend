@@ -1,7 +1,13 @@
 // src/components/Header.jsx
 import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../redux/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 function Header({ toggleDrawer }) {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    
     // State for managing dropdowns
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
     const [isAppsDropdownOpen, setIsAppsDropdownOpen] = useState(false);
@@ -19,6 +25,12 @@ function Header({ toggleDrawer }) {
     const toggleAppsDropdown = () => setIsAppsDropdownOpen(!isAppsDropdownOpen);
     const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen);
 
+    // Logout handler
+    const handleLogout = () => {
+        dispatch(logout());
+        navigate('/SignIn'); // Redirect to the login page after logging out
+    };
+
     // Handler to toggle dark mode
     const toggleDarkMode = () => {
         setIsDarkMode((prevMode) => !prevMode);
@@ -26,12 +38,10 @@ function Header({ toggleDrawer }) {
 
     // Effect to initialize dark mode based on user preference or system settings
     useEffect(() => {
-        // Check for saved user preference
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
             setIsDarkMode(savedTheme === 'dark');
         } else {
-            // If no preference, use system preference
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             setIsDarkMode(prefersDark);
         }
@@ -52,22 +62,13 @@ function Header({ toggleDrawer }) {
     // Close dropdowns when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (
-                notificationRef.current &&
-                !notificationRef.current.contains(event.target)
-            ) {
+            if (notificationRef.current && !notificationRef.current.contains(event.target)) {
                 setIsNotificationOpen(false);
             }
-            if (
-                appsDropdownRef.current &&
-                !appsDropdownRef.current.contains(event.target)
-            ) {
+            if (appsDropdownRef.current && !appsDropdownRef.current.contains(event.target)) {
                 setIsAppsDropdownOpen(false);
             }
-            if (
-                userMenuRef.current &&
-                !userMenuRef.current.contains(event.target)
-            ) {
+            if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
                 setIsUserMenuOpen(false);
             }
         };
@@ -86,14 +87,12 @@ function Header({ toggleDrawer }) {
             <div className="flex justify-between items-center">
                 {/* Left Section */}
                 <div className="flex items-center">
-                    {/* Drawer Toggle Button */}
                     <button
                         onClick={toggleDrawer}
                         aria-controls="drawer-navigation"
                         aria-expanded="false"
                         className="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 dark:focus:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 transition-colors duration-300"
                     >
-                        {/* Hamburger Icon */}
                         <svg
                             aria-hidden="true"
                             className="w-6 h-6"
@@ -110,16 +109,12 @@ function Header({ toggleDrawer }) {
                         <span className="sr-only">Toggle sidebar</span>
                     </button>
 
-                    {/* Logo */}
                     <a href="https://flowbite.com" className="flex items-center">
-                      
                         <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white transition-colors duration-300">
                             ScepHUB
                         </span>
                     </a>
                 </div>
-
-
 
                 {/* Right Section */}
                 <div className="flex items-center space-x-4">
@@ -130,7 +125,6 @@ function Header({ toggleDrawer }) {
                         aria-label="Toggle Dark Mode"
                     >
                         {isDarkMode ? (
-                            // Sun Icon for Light Mode
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="w-6 h-6"
@@ -146,7 +140,6 @@ function Header({ toggleDrawer }) {
                                 />
                             </svg>
                         ) : (
-                            // Moon Icon for Dark Mode
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="w-6 h-6"
@@ -158,8 +151,6 @@ function Header({ toggleDrawer }) {
                             </svg>
                         )}
                     </button>
-
-
 
                     {/* User Menu */}
                     <div className="relative" ref={userMenuRef}>
@@ -179,7 +170,6 @@ function Header({ toggleDrawer }) {
                             />
                         </button>
 
-                        {/* User Dropdown Menu */}
                         {isUserMenuOpen && (
                             <div
                                 className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg dark:bg-gray-700 z-50 transition-opacity duration-300"
@@ -193,7 +183,6 @@ function Header({ toggleDrawer }) {
                                     </span>
                                 </div>
                                 <ul className="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="user-menu-button">
-                                    {/* Profile Link */}
                                     <li>
                                         <a
                                             href="#"
@@ -202,7 +191,6 @@ function Header({ toggleDrawer }) {
                                             My profile
                                         </a>
                                     </li>
-                                    {/* Account Settings Link */}
                                     <li>
                                         <a
                                             href="#"
@@ -213,14 +201,13 @@ function Header({ toggleDrawer }) {
                                     </li>
                                 </ul>
                                 <ul className="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="user-menu-button">
-                                    {/* Sign Out Link */}
                                     <li>
-                                        <a
-                                            href="#"
-                                            className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white transition-colors duration-300"
+                                        <button
+                                            onClick={handleLogout}
+                                            className="block w-full text-left py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white transition-colors duration-300"
                                         >
                                             Sign out
-                                        </a>
+                                        </button>
                                     </li>
                                 </ul>
                             </div>
@@ -230,7 +217,6 @@ function Header({ toggleDrawer }) {
             </div>
         </nav>
     );
-
 }
 
 export default Header;

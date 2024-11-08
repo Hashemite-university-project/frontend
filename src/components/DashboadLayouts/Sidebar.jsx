@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaTachometerAlt, FaProjectDiagram, FaTasks, FaCalendarAlt, FaBook, FaChalkboardTeacher } from 'react-icons/fa';
 
 function Sidebar({ isDrawerOpen, closeDrawer }) {
+    // Set initial role state based on localStorage
+    const [role, setRole] = useState(() => {
+        const authData = JSON.parse(localStorage.getItem('auth'));
+        return authData?.role;
+    });
+
+    useEffect(() => {
+        // Define a function to update the role state whenever auth data changes in localStorage
+        const handleStorageChange = () => {
+            const authData = JSON.parse(localStorage.getItem('auth'));
+            setRole(authData?.role);
+        };
+
+        // Add event listener for storage change
+        window.addEventListener('storage', handleStorageChange);
+
+        // Cleanup listener on component unmount
+        return () => window.removeEventListener('storage', handleStorageChange);
+    }, []);
+
     return (
         <aside
             className={`fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform transform ${isDrawerOpen ? 'translate-x-0' : '-translate-x-full'
@@ -36,7 +56,6 @@ function Sidebar({ isDrawerOpen, closeDrawer }) {
 
                 {/* Main Navigation */}
                 <ul className="space-y-2">
-                    {/* Dashboard */}
                     <li>
                         <NavLink
                             to="/dashboard"
@@ -47,18 +66,61 @@ function Sidebar({ isDrawerOpen, closeDrawer }) {
                         </NavLink>
                     </li>
 
-                    {/* Projects */}
-                    <li>
-                        <NavLink
-                            to="/enrolled-projects"
-                            className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                        >
-                            <FaProjectDiagram className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-                            <span className="ml-3">Projects</span>
-                        </NavLink>
-                    </li>
+                    {role === 1 && (
+                        <>
+                            <li>
+                                <NavLink
+                                    to="/enrolled-projects"
+                                    className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                >
+                                    <FaProjectDiagram className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                                    <span className="ml-3">Enrolled Projects</span>
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/enrolled-courses"
+                                    className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                >
+                                    <FaBook className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                                    <span className="ml-3">Enrolled Courses</span>
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/available-courses"
+                                    className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                >
+                                    <FaChalkboardTeacher className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                                    <span className="ml-3">Available Courses</span>
+                                </NavLink>
+                            </li>
+                        </>
+                    )}
 
-                    {/* Kanban */}
+                    {role === 2 && (
+                        <>
+                        <li>
+                            <NavLink
+                                to="/instructor/courses"
+                                className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                            >
+                                <FaChalkboardTeacher className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                                <span className="ml-3">Courses</span>
+                            </NavLink>
+                        </li>
+                          <li>
+                          <NavLink
+                              to="/instructor/projects"
+                              className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                          >
+                              <FaProjectDiagram className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                              <span className="ml-3">Projects</span>
+                          </NavLink>
+                      </li>
+                      </>
+                    )}
+
                     <li>
                         <NavLink
                             to="/kanban"
@@ -69,7 +131,6 @@ function Sidebar({ isDrawerOpen, closeDrawer }) {
                         </NavLink>
                     </li>
 
-                    {/* Calendar */}
                     <li>
                         <NavLink
                             to="/calendar"
@@ -77,28 +138,6 @@ function Sidebar({ isDrawerOpen, closeDrawer }) {
                         >
                             <FaCalendarAlt className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                             <span className="ml-3">Calendar</span>
-                        </NavLink>
-                    </li>
-
-                    {/* Enrolled Courses */}
-                    <li>
-                        <NavLink
-                            to="/inrolled-courses"
-                            className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                        >
-                            <FaBook className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-                            <span className="ml-3">Enrolled Courses</span>
-                        </NavLink>
-                    </li>
-
-                    {/* Available Courses */}
-                    <li>
-                        <NavLink
-                            to="/available-courses"
-                            className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                        >
-                            <FaChalkboardTeacher className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-                            <span className="ml-3">Available Courses</span>
                         </NavLink>
                     </li>
                 </ul>

@@ -12,7 +12,6 @@ function SignIn() {
 
     const [user_email, setUserEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [selectedRole, setSelectedRole] = useState('Student');
 
     const validate = (fieldName, value) => {
         switch (fieldName) {
@@ -28,7 +27,7 @@ function SignIn() {
 
     const handleSignIn = (e) => {
         e.preventDefault();
-        if (!validate('email', user_email) || !validate('password', password) || !selectedRole) {
+        if (!validate('email', user_email) || !validate('password', password) ) {
             Swal.fire({
                 title: 'Invalid Input',
                 text: 'Please provide a valid email, password (minimum 8 characters), and select a role.',
@@ -38,7 +37,7 @@ function SignIn() {
             return;
         }
 
-        dispatch(signIn({ user_email, password, role: selectedRole }));
+        dispatch(signIn({ user_email, password}));
     };
 
     useEffect(() => {
@@ -69,37 +68,7 @@ function SignIn() {
                     <h2 className="mt-6 text-3xl font-bold text-gray-900">Welcome Back!</h2>
                     <p className="mt-2 text-sm text-gray-600">Sign In As</p>
                 </div>
-                <div className="flex flex-row justify-center items-center space-x-3">
-                    <div className="flex flex-col align-middle justify-center items-center">
-                        <button
-                            name="Instructor"
-                            className={`w-32 p-2 rounded-full font-bold text-lg ${selectedRole === 'Instructor' ? 'bg-blue-400 text-white' : 'bg-gray-200 text-black'
-                                }`}
-                            onClick={() => setSelectedRole('Instructor')}
-                            aria-pressed={selectedRole === 'Instructor'}
-                        >
-                            Instructor
-                        </button>
-                        {/* <label className="text-sm font-bold text-gray-700 tracking-wide" htmlFor="Instructor">
-                            Instructor
-                        </label> */}
-                    </div>
-                    <div className="flex flex-col align-middle justify-center items-center">
-                        <button
-                            name="Student"
-                            className={`w-32 p-2 rounded-full font-bold text-lg ${selectedRole === 'Student' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'
-                                }`}
-                            onClick={() => setSelectedRole('Student')}
-                            aria-pressed={selectedRole === 'Student'}
 
-                        >
-                            Student
-                        </button>
-                        {/* <label className="text-sm font-bold text-gray-700 tracking-wide" htmlFor="Student">
-                            Student
-                        </label> */}
-                    </div>
-                </div>
                 <form className="mt-8 space-y-6" onSubmit={handleSignIn}>
                     <div className="relative">
                         {validate('email', user_email) && (

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import DashboardLayout from '../../../components/DashboadLayouts/DashbordLayout';
 import ProjectsCards from '../../../components/Projects/ProjectsCards';
 import projectImg from '../../../assets/project-management.png'
-function Index() {
+function EnrolledProjects() {
     const [projects] = useState([
         {
             id: 1,
@@ -41,4 +41,4 @@ function Index() {
     );
 }
 
-export default Index;
+export default EnrolledProjects;

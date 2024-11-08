@@ -16,7 +16,7 @@ function CodeEditor() {
     { name: 'Java', value: 'java', apiLang: '62' },
   ];
 
-  // Code templates for each language
+
   const codeTemplates = {
     javascript: `
 class Example {
@@ -100,7 +100,7 @@ public class Example {
         {
           headers: {
             'Content-Type': 'application/json',
-            'x-rapidapi-key': '11671a06f3msh629f9fa5104a64bp1ad307jsnffa2d70c18db', // Replace with your actual API key
+            'x-rapidapi-key': '11671a06f3msh629f9fa5104a64bp1ad307jsnffa2d70c18db',
           },
         }
       );
@@ -112,7 +112,7 @@ public class Example {
           `https://judge0-ce.p.rapidapi.com/submissions/${token}?fields=*`,
           {
             headers: {
-              'x-rapidapi-key': '11671a06f3msh629f9fa5104a64bp1ad307jsnffa2d70c18db', // Replace with your actual API key
+              'x-rapidapi-key': '11671a06f3msh629f9fa5104a64bp1ad307jsnffa2d70c18db',
             },
           }
         );
@@ -170,7 +170,7 @@ public class Example {
         <div className="flex-1 p-4 bg-gray-800 text-white rounded-lg shadow-lg">
           <h2 className="text-lg font-semibold mb-2 text-gray-200">Code Editor</h2>
           <Editor
-            height="300px"
+            height="650px"
             language={language}
             theme="vs-dark"
             value={code}

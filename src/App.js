@@ -8,8 +8,14 @@ import AboutUs from './pages/AboutUs';
 import NotFound from './pages/NotFound';
 import Dashboard from './components/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
-import EnrolledProjects from './pages/Student/EnroledProjects/Index';
+import EnrolledProjects from './pages/Student/Projects/EnrolledProjects';
 import ViewProject from './components/Projects/ViewProject';
+import AllCourses from './pages/Student/Courses/AllCourses';
+import EnrolledCourses from './pages/Student/Courses/EnrolledCourses';
+import CourseDetails from './pages/Student/Courses/CourseDetails';
+import InstructorCourses from './pages/Instructor/Courses/Index';
+import CreateCourse from './pages/Instructor/Courses/Create';
+import InstructorProjects from './pages/Instructor/Projects/Index';
 function App() {
   return (
     <BrowserRouter>
@@ -19,6 +25,8 @@ function App() {
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/AboutUs" element={<AboutUs />} />
+
+        {/* Private Routes */}
         <Route
           path="/dashboard"
           element={
@@ -34,15 +42,66 @@ function App() {
               <EnrolledProjects />
             </PrivateRoute>
           }
-        />        
+        />
         <Route
-        path="/enrolled-projects/:id"
-        element={
-          <PrivateRoute>
-            <ViewProject />
-          </PrivateRoute>
-        }
-      />
+          path="/enrolled-projects/:id"
+          element={
+            <PrivateRoute>
+              <ViewProject />
+            </PrivateRoute>
+          }
+        />
+
+        {/* Courses Routes */}
+        <Route
+          path="/available-courses"
+          element={
+            <PrivateRoute>
+              <AllCourses />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/enrolled-courses"
+          element={
+            <PrivateRoute>
+              <EnrolledCourses />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/course/:courseId"
+          element={
+            <PrivateRoute>
+              <CourseDetails />
+            </PrivateRoute>
+          }
+        />
+        {/* insryuctor routes */}
+        <Route
+          path="/instructor/projects"
+          element={
+            <PrivateRoute>
+              <InstructorProjects />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/instructor/courses"
+          element={
+            <PrivateRoute>
+              <InstructorCourses />
+            </PrivateRoute>
+          }
+        />        <Route
+          path="/instructor/create/course"
+          element={
+            <PrivateRoute>
+              <CreateCourse />
+            </PrivateRoute>
+          }
+        />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
