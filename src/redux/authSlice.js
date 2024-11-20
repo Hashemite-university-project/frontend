@@ -1,4 +1,3 @@
-// src/features/auth/authSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -18,16 +17,11 @@ const initialState = {
 // Async thunk for Sign In
 export const signIn = createAsyncThunk(
   'auth/signIn',
-  async ({ user_email, password, role }, { rejectWithValue }) => {
+  async ({ user_email, password }, { rejectWithValue }) => {
     const apiUrl = `http://localhost:8000/user/signIn`;
 
     try {
-      const response = await axios.post(
-        apiUrl,
-        { user_email, password },
-        { withCredentials: true }
-      );
-      Cookies.set('token', response.data.access_token, { expires: 7, secure: true });
+      const response = await axios.post(apiUrl, { user_email, password });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Sign In Failed');
@@ -47,7 +41,7 @@ export const signUp = createAsyncThunk(
     }
 
     try {
-      const response = await axios.post(apiUrl, formData, { withCredentials: true });
+      const response = await axios.post(apiUrl, formData);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Sign Up Failed');
@@ -104,20 +98,27 @@ const authSlice = createSlice({
       state.refreshToken = null;
       state.role = null;
       state.error = null;
-      Cookies.remove('token');
+
+      // Remove tokens from cookies
+      Cookies.remove('accessToken');
+      Cookies.remove('refreshToken');
+
       localStorage.removeItem('auth');
     },
-    // Action to set authentication state from localStorage
     setCredentials(state, action) {
       const { user, accessToken, refreshToken, role } = action.payload;
       state.user = user;
       state.accessToken = accessToken;
       state.refreshToken = refreshToken;
       state.role = role;
+
+      console.log(accessToken,refreshToken);
+      // Save tokens in cookies
+      Cookies.set('accessToken', accessToken, { expires: 1 }); // Expires in 1 day
+      Cookies.set('refreshToken', refreshToken, { expires: 7 }); // Expires in 7 days
     },
   },
   extraReducers: (builder) => {
-    // Sign In
     builder
       .addCase(signIn.pending, (state) => {
         state.loading = true;
@@ -125,21 +126,27 @@ const authSlice = createSlice({
       })
       .addCase(signIn.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload.user;
-        state.accessToken = action.payload.access_token;
-        state.refreshToken = action.payload.refresh_token;
-        state.role = action.payload.role;
-        state.error = null;
-        localStorage.setItem('auth', JSON.stringify(state));
-        // Dispatch fetchUserData to get user info after login
-        fetchUserData();
+        const { user, access_token, refresh_token, role } = action.payload;
+
+        state.user = user;
+        state.accessToken = access_token;
+        state.refreshToken = refresh_token;
+        state.role = role;
+
+        // Save tokens in cookies
+        Cookies.set('accessToken', access_token, { expires: 1 });
+        Cookies.set('refreshToken', refresh_token, { expires: 7 });
+
+        localStorage.setItem(
+          'auth',
+          JSON.stringify({ user, accessToken: access_token, refreshToken: refresh_token, role })
+        );
       })
       .addCase(signIn.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Sign In Failed';
       });
 
-    // Sign Up
     builder
       .addCase(signUp.pending, (state) => {
         state.loading = true;
