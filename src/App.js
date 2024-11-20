@@ -16,6 +16,10 @@ import CourseDetails from './pages/Student/Courses/CourseDetails';
 import InstructorCourses from './pages/Instructor/Courses/Index';
 import CreateCourse from './pages/Instructor/Courses/Create';
 import InstructorProjects from './pages/Instructor/Projects/Index';
+import Developers from './pages/Developers';
+import ProjectDetails from './pages/ProjectDetails';
+import MemberCV from './pages/MemberCV';
+import CoursesDetailsHome from './pages/CoursesDetailsHome';
 function App() {
   return (
     <BrowserRouter>
@@ -25,7 +29,10 @@ function App() {
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/AboutUs" element={<AboutUs />} />
-
+        <Route path="/Developers" element={<Developers />} />
+        <Route path="/MemberCV/:id" element={<MemberCV />} />
+        <Route path="/HomeCourseDetails/:id" element={<CoursesDetailsHome />} />
+        <Route path="/ProjectDetails/:id" element={<ProjectDetails />} />
         {/* Private Routes */}
         <Route
           path="/dashboard"

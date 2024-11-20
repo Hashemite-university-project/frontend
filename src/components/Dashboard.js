@@ -4,11 +4,9 @@ import InstructorDashboard from '../pages/Instructor/Dashboard';
 import StudentDashboard from '../pages/Student/Dashboard';
 
 function Dashboard() {
-    // Retrieve auth data from local storage
     const authData = JSON.parse(localStorage.getItem('auth'));
-
-    // Access the role from the stored auth data
     const role = authData?.role;
+    console.log(role);
 
     return (
         <div>
