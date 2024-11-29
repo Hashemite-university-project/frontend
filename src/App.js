@@ -16,6 +16,7 @@ import CourseDetails from './pages/Student/Courses/CourseDetails';
 import InstructorCourses from './pages/Instructor/Courses/Index';
 import CreateCourse from './pages/Instructor/Courses/Create';
 import InstructorProjects from './pages/Instructor/Projects/Index';
+import Edit from './pages/Instructor/Courses/Edit';
 function App() {
   return (
     <BrowserRouter>
@@ -93,11 +94,20 @@ function App() {
               <InstructorCourses />
             </PrivateRoute>
           }
-        />        <Route
+        />        
+        <Route
           path="/instructor/create/course"
           element={
             <PrivateRoute>
               <CreateCourse />
+            </PrivateRoute>
+          }
+        />
+         <Route
+          path="/Instructor/Courses/Edit"
+          element={
+            <PrivateRoute>
+              <Edit />
             </PrivateRoute>
           }
         />

@@ -130,7 +130,7 @@ function CoursesList() {
 
                                     {/* Action */}
                                     <td className="px-6 py-4 text-center space-x-2">
-                                        <NavLink to={`/instructor/edit/course/${course.course_id}`} className="text-blue-600 dark:text-blue-500 hover:underline text-sm sm:text-base">
+                                        <NavLink to={`/Instructor/Courses/Edit`} className="text-blue-600 dark:text-blue-500 hover:underline text-sm sm:text-base">
                                             Edit
                                         </NavLink>
                                         <button
