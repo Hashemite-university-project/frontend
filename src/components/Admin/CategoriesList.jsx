@@ -93,7 +93,7 @@ function CategoriesList() {
 
     try {
       const response = await axios.put(
-        `http://localhost:8000/category/${currentCategory.category_id}`,
+        `http://localhost:8000/category/updateCategory/${currentCategory.category_id}`,
         { category_name: editedCategoryName },
         { withCredentials: true }
       );
