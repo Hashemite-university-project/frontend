@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { FaTachometerAlt, FaProjectDiagram, FaTasks, FaCalendarAlt, FaBook, FaChalkboardTeacher } from 'react-icons/fa';
+import { FaTachometerAlt, FaProjectDiagram, FaTasks, FaCalendarAlt, FaBook, FaChalkboardTeacher ,FaUsers,
+    FaFileAlt,
+    FaEnvelope,
+    FaThLarge,} from 'react-icons/fa';
 
 function Sidebar({ isDrawerOpen, closeDrawer }) {
     // Set initial role state based on localStorage
@@ -100,25 +103,83 @@ function Sidebar({ isDrawerOpen, closeDrawer }) {
 
                     {role === 2 && (
                         <>
-                        <li>
-                            <NavLink
-                                to="/instructor/courses"
-                                className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                            >
-                                <FaChalkboardTeacher className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-                                <span className="ml-3">Courses</span>
-                            </NavLink>
-                        </li>
-                          <li>
-                          <NavLink
-                              to="/instructor/projects"
-                              className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                          >
-                              <FaProjectDiagram className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-                              <span className="ml-3">Projects</span>
-                          </NavLink>
-                      </li>
-                      </>
+                            <li>
+                                <NavLink
+                                    to="/instructor/courses"
+                                    className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                >
+                                    <FaChalkboardTeacher className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                                    <span className="ml-3">Courses</span>
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/instructor/projects"
+                                    className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                >
+                                    <FaProjectDiagram className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                                    <span className="ml-3">Projects</span>
+                                </NavLink>
+                            </li>   
+                        </>
+                    )}
+                    {role === 3 && (
+                  <>
+                  <li>
+                      <NavLink
+                          to="/admin/users"
+                          className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                      >
+                          <FaUsers className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                          <span className="ml-3">Users</span>
+                      </NavLink>
+                  </li>
+                  <li>
+                      <NavLink
+                          to="/admin/projects"
+                          className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                      >
+                          <FaProjectDiagram className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                          <span className="ml-3">Projects</span>
+                      </NavLink>
+                  </li>
+                  <li>
+                      <NavLink
+                          to="/admin/courses"
+                          className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                      >
+                          <FaBook className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                          <span className="ml-3">Courses</span>
+                      </NavLink>
+                  </li>
+                  <li>
+                      <NavLink
+                          to="/admin/reports"
+                          className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                      >
+                          <FaFileAlt className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                          <span className="ml-3">Reports</span>
+                      </NavLink>
+                  </li>
+                  <li>
+                      <NavLink
+                          to="/admin/messages"
+                          className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                      >
+                          <FaEnvelope className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                          <span className="ml-3">Messages</span>
+                      </NavLink>
+                  </li>
+                  <li>
+                      <NavLink
+                          to="/admin/categories"
+                          className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                      >
+                          <FaThLarge className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                          <span className="ml-3">Categories</span>
+                      </NavLink>
+                  </li>
+              </>
                     )}
 
                     <li>

@@ -16,6 +16,15 @@ import CourseDetails from './pages/Student/Courses/CourseDetails';
 import InstructorCourses from './pages/Instructor/Courses/Index';
 import CreateCourse from './pages/Instructor/Courses/Create';
 import InstructorProjects from './pages/Instructor/Projects/Index';
+
+// admin
+import Users from './pages/Admin/Users';
+import Projects from './pages/Admin/Projects';
+import Courses from './pages/Admin/Courses';
+import Reports from './pages/Admin/Reports';
+import Messages from './pages/Admin/Messages';
+import Categories from './pages/Admin/Categories';
+
 function App() {
   return (
     <BrowserRouter>
@@ -98,6 +107,54 @@ function App() {
           element={
             <PrivateRoute>
               <CreateCourse />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <PrivateRoute>
+              <Users />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/projects"
+          element={
+            <PrivateRoute>
+              <Projects />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/courses"
+          element={
+            <PrivateRoute>
+              <Courses />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/reports"
+          element={
+            <PrivateRoute>
+              <Reports />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/messages"
+          element={
+            <PrivateRoute>
+              <Messages />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/categories"
+          element={
+            <PrivateRoute>
+              <Categories />
             </PrivateRoute>
           }
         />
