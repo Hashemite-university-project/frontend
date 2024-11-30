@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../redux/authSlice';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 function Header({ toggleDrawer }) {
     const dispatch = useDispatch();
@@ -184,12 +184,12 @@ function Header({ toggleDrawer }) {
                                 </div>
                                 <ul className="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="user-menu-button">
                                     <li>
-                                        <a
-                                            href="#"
+                                        <NavLink
+                                            to="/profile"
                                             className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white transition-colors duration-300"
                                         >
                                             My profile
-                                        </a>
+                                        </NavLink>
                                     </li>
                                     <li>
                                         <a

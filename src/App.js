@@ -26,6 +26,7 @@ import Messages from './pages/Admin/Messages';
 import Categories from './pages/Admin/Categories';
 import Students from './pages/Admin/Students';
 import Admins from './pages/Admin/Admins';
+import Profile from './pages/Profile';
 function App() {
   return (
     <BrowserRouter>
@@ -180,6 +181,14 @@ function App() {
           element={
             <PrivateRoute>
               <Categories />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <Profile />
             </PrivateRoute>
           }
         />
