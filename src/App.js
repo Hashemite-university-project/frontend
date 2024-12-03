@@ -27,6 +27,10 @@ import Categories from './pages/Admin/Categories';
 import Students from './pages/Admin/Students';
 import Admins from './pages/Admin/Admins';
 import Profile from './pages/Profile';
+import Developers from './pages/Developers';
+import MemberCVHome from './pages/MemberCVHome';
+import HomeCourseDetails from './pages/HomeCourseDetails';
+import HomeProjectDetails from './pages/HomeProjectDetails';
 function App() {
   return (
     <BrowserRouter>
@@ -36,7 +40,10 @@ function App() {
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/AboutUs" element={<AboutUs />} />
-
+        <Route path="/Developers" element={<Developers />} />
+        <Route path="/MemberCV/:id" element={<MemberCVHome />} />
+        <Route path="/CourseDetails/:id" element={<HomeCourseDetails />} />
+        <Route path="/ProjectDetails/:id" element={<HomeProjectDetails />} />
         {/* Private Routes */}
         <Route
           path="/dashboard"
