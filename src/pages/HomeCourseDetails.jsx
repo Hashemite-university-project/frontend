@@ -107,7 +107,7 @@ function HomeCourseDetails() {
                 </li>
                 </ul>
                 <ul class="sm:flex items-center text-sm text-gray-500">
-                <li>Created by <span class="font-bold"> {course.instructor.instructor.user_name} </span></li>
+                <li>Created by <span class="font-bold"> {course.instructor.user.user_name} </span></li>
                 <span class="hidden sm:inline mx-3 text-2xl">·</span>
                 <li>Last updated {new Date(course.updatedAt).toLocaleDateString()}</li>
                 </ul>

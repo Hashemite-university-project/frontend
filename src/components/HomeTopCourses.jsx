@@ -111,7 +111,7 @@ function HomeTopCourses() {
                     ? course.course_description.slice(0, 100) + ' ...'
                     : course.course_description}
                 </p>
-                <Link to={`/CourseDetails/${course.course_id}`} class="text-sm font-semibold text-gray-500 hover:text-gray-700">{course.instructor.instructor.user_name}</Link>
+                <Link to={`/CourseDetails/${course.course_id}`} class="text-sm font-semibold text-gray-500 hover:text-gray-700">{course.instructor.user.user_name}</Link>
                 <div class="flex flex-col text-gray-700 sm:flex-row">
                 <div class="flex h-fit space-x-2 text-sm font-medium">
                     <div class="rounded-full bg-blue-100 px-2 py-0.5 text-blue-700">160 Enrolled</div>

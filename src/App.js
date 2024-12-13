@@ -31,6 +31,10 @@ import Developers from './pages/Developers';
 import MemberCVHome from './pages/MemberCVHome';
 import HomeCourseDetails from './pages/HomeCourseDetails';
 import HomeProjectDetails from './pages/HomeProjectDetails';
+import ProjectManagement from './pages/Instructor/projectsManagment/ProjectsManagement';
+import TasksWorkSpace from './pages/Instructor/projectsManagment/TasksWorkSpace';
+import AvailableProjects from './components/Projects/AvailableProjects';
+import ProjectInformation from './components/Projects/ProjectInformation';
 function App() {
   return (
     <BrowserRouter>
@@ -199,7 +203,39 @@ function App() {
             </PrivateRoute>
           }
         />
-
+        <Route
+          path="/instructor/ProjectManagement"
+          element={
+            <PrivateRoute>
+              <ProjectManagement />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/instructor/project/workSpace/:id"
+          element={
+            <PrivateRoute>
+              <TasksWorkSpace />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/student/available-projects"
+          element={
+            <PrivateRoute>
+              <AvailableProjects />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/theProjectDetails/:projectId"
+          element={
+            <PrivateRoute>
+              <ProjectInformation />
+            </PrivateRoute>
+          }
+        />
+        
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

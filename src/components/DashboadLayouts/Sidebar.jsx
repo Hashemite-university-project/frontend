@@ -82,6 +82,15 @@ function Sidebar({ isDrawerOpen, closeDrawer }) {
                             </li>
                             <li>
                                 <NavLink
+                                    to="/student/available-projects"
+                                    className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                >
+                                    <FaProjectDiagram className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                                    <span className="ml-3">Available Projects</span>
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
                                     to="/enrolled-courses"
                                     className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 >
@@ -98,6 +107,7 @@ function Sidebar({ isDrawerOpen, closeDrawer }) {
                                     <span className="ml-3">Available Courses</span>
                                 </NavLink>
                             </li>
+                            
                         </>
                     )}
 
@@ -120,7 +130,25 @@ function Sidebar({ isDrawerOpen, closeDrawer }) {
                                     <FaProjectDiagram className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                                     <span className="ml-3">Projects</span>
                                 </NavLink>
-                            </li>   
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/instructor/ProjectManagement"
+                                    className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                >
+                                    <FaTasks className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                                    <span className="ml-3">Projects WorkSpace</span>
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/admin/messages"
+                                    className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                >
+                                    <FaEnvelope className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                                    <span className="ml-3">Messages</span>
+                                </NavLink>
+                            </li>
                         </>
                     )}
                     {role === 3 && (
@@ -200,7 +228,7 @@ function Sidebar({ isDrawerOpen, closeDrawer }) {
               </>
                     )}
 
-                    <li>
+                    {/* <li>
                         <NavLink
                             to="/kanban"
                             className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -218,7 +246,7 @@ function Sidebar({ isDrawerOpen, closeDrawer }) {
                             <FaCalendarAlt className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                             <span className="ml-3">Calendar</span>
                         </NavLink>
-                    </li>
+                    </li> */}
                 </ul>
             </div>
         </aside>

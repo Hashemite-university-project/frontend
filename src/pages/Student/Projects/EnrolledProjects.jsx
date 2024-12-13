@@ -1,41 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import DashboardLayout from '../../../components/DashboadLayouts/DashbordLayout';
 import ProjectsCards from '../../../components/Projects/ProjectsCards';
-import projectImg from '../../../assets/project-management.png'
+
 function EnrolledProjects() {
-    const [projects] = useState([
-        {
-            id: 1,
-            image: projectImg,
-            name: 'Project Alpha',
-            instructor: 'Dr. John Doe',
-            skills: ['JavaScript', 'React', 'Node.js'],
-        },
-        {
-            id: 2,
-            image: projectImg,
-            name: 'Project Beta',
-            instructor: 'Prof. Jane Smith',
-            skills: ['Python', 'Django', 'Machine Learning'],
-        },
-        {
-            id: 3,
-            image: projectImg,
-            name: 'Project Gamma',
-            instructor: 'Unknown Instructor',
-            skills: ['Java', 'Spring Boot', 'Microservices'],
-        },
-    ]);
+    const [projects, setProjects] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/project/student/enrolledProjects', { withCredentials: true });
+                setProjects(response.data);
+            } catch (err) {
+                setError(err.message || 'Failed to fetch projects');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProjects();
+    }, []);
 
     return (
         <DashboardLayout>
-            <main className="p-4 md:ml-64 h-screen pt-10 bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+            <main className="p-4 md:ml-64 h-screen pt-10  dark:bg-gray-900 transition-colors duration-300">
                 <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white transition-colors duration-300">Projects</h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {projects.map((project) => (
-                        <ProjectsCards key={project.id} project={project} />
-                    ))}
-                </div>
+
+                {loading && <p className="text-gray-500 dark:text-gray-400">Loading projects...</p>}
+                {error && <p className="text-red-500">Error: {error}</p>}
+                
+                {!loading && !error && (
+                    <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4">
+                        {projects.map((project) => (
+                            <ProjectsCards key={project.project_id} project={project} />
+                        ))}
+                    </div>
+                )}
             </main>
         </DashboardLayout>
     );

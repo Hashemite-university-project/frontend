@@ -3,8 +3,24 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../redux/authSlice';
 import { NavLink, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Header({ toggleDrawer }) {
+    const [userAccount, SetUserAccount] = useState([]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/user/info', { withCredentials: true });
+        SetUserAccount(response.data);
+      } catch (error) {
+        console.error('Error fetching projects:', error.message);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     
@@ -110,14 +126,14 @@ function Header({ toggleDrawer }) {
                     </button>
 
                     <a href="https://flowbite.com" className="flex items-center">
-                        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white transition-colors duration-300">
+                        <span className=" ml-8 self-center text-2xl font-semibold whitespace-nowrap dark:text-white transition-colors duration-300">
                             ScepHUB
                         </span>
                     </a>
                 </div>
 
                 {/* Right Section */}
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-4 mr-10">
                     {/* Dark Mode Toggler */}
                     <button
                         onClick={toggleDarkMode}
@@ -165,7 +181,7 @@ function Header({ toggleDrawer }) {
                             <span className="sr-only">Open user menu</span>
                             <img
                                 className="w-8 h-8 rounded-full"
-                                src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png"
+                                src={userAccount.user_img}
                                 alt="User avatar"
                             />
                         </button>
@@ -176,10 +192,10 @@ function Header({ toggleDrawer }) {
                             >
                                 <div className="py-3 px-4">
                                     <span className="block text-sm font-semibold text-gray-900 dark:text-white">
-                                        Neil Sims
+                                        {userAccount.user_name}
                                     </span>
                                     <span className="block text-sm text-gray-900 truncate dark:text-white">
-                                        name@flowbite.com
+                                    {userAccount.user_email}
                                     </span>
                                 </div>
                                 <ul className="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="user-menu-button">
