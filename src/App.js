@@ -17,6 +17,7 @@ import InstructorCourses from './pages/Instructor/Courses/Index';
 import CreateCourse from './pages/Instructor/Courses/Create';
 import InstructorProjects from './pages/Instructor/Projects/Index';
 import EditCourse from './pages/Instructor/Courses/Edit';
+import SubCourseDetails from './pages/Student/MyList/SubCourseDetails';
 // admin
 import Instructors from './pages/Admin/Instructors';
 import Projects from './pages/Admin/Projects';
@@ -96,6 +97,14 @@ function App() {
           element={
             <PrivateRoute>
               <CourseDetails />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/course/view/:courseId"
+          element={
+            <PrivateRoute>
+              <SubCourseDetails/>
             </PrivateRoute>
           }
         />

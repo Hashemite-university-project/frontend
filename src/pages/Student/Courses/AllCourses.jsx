@@ -29,7 +29,7 @@ function AllCourses() {
         image: course.course_img, // Assuming this is a full URL
         bannerImg: course.bannerImg || 'course-banner3.jpg', // Fallback if not provided
         name: course.category?.category_name || 'Unknown',
-        author: course.instructor?.instructor?.user_name || 'Unknown',
+        author: course.instructor?.user?.user_name || 'Unknown',
         authorImg: 'author.png', // Update if API provides this
         lesson: course.lesson || '0',
         enrolled: course.enrolled || '0',

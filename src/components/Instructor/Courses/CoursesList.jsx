@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function CoursesList() {
     const [courses, setCourses] = useState([]);
     const [search, setSearch] = useState('');
+    const [togglingCourseId, setTogglingCourseId] = useState(null);
 
     useEffect(() => {
         fetchCourses();
@@ -29,29 +30,35 @@ function CoursesList() {
                 });
             });
     };
+    const togglePublishStatus = async (courseID) => {
+        setTogglingCourseId(courseID);
+        try {
+            const response = await axios.put(
+                `http://localhost:8000/course/activateCourse/${courseID}`,
+                {}, // Request body (empty object here)
+                { withCredentials: true } // Config
+            );
 
-    const handleDeleteCourse = (courseId) => {
-        if (window.confirm("Are you sure you want to delete this course?")) {
-            axios.put(`http://localhost:8000/course/delete/${courseId}`, {}, { withCredentials: true })
-                .then((response) => {
-                    if (response.status === 200) {
-                        setCourses((prevCourses) => prevCourses.filter(course => course.course_id !== courseId));
-                        toast.success('Course deleted successfully!', {
-                            position: "top-right",
-                            autoClose: 3000,
-                        });
-                    }
-                })
-                .catch((error) => {
-                    console.error('There was an error deleting the course!', error);
-                    toast.error('Failed to delete course.', {
-                        position: "top-right",
-                        autoClose: 5000,
-                    });
-                });
+            toast.success(response.data);
+
+            // Update the local state to reflect the change
+            setCourses((prevCourses) =>
+                prevCourses.map((course) =>
+                    course.course_id === courseID
+                        ? { ...course, is_deleted: !course.is_deleted }
+                        : course
+                )
+            );
+        } catch (error) {
+            console.error('Error toggling publish status:', error);
+            toast.error('Failed to toggle publish status. Please try again.');
+        } finally {
+            setTogglingCourseId(null);
         }
     };
-    
+
+
+
 
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
@@ -133,11 +140,43 @@ function CoursesList() {
                                         <NavLink to={`/instructor/edit/course/${course.course_id}`} className="text-blue-600 dark:text-blue-500 hover:underline text-sm sm:text-base">
                                             Edit
                                         </NavLink>
+
+                                    </td>
+                                    <td className="py-2 px-4 border-b">
                                         <button
-                                            className="text-red-600 dark:text-red-500 hover:underline text-sm sm:text-base"
-                                            onClick={() => handleDeleteCourse(course.course_id)}
+                                            onClick={() => togglePublishStatus(course.course_id)}
+                                            className={`px-4 py-2 rounded ${course.is_deleted
+                                                    ? 'bg-green-500 hover:bg-green-600 text-white'
+                                                    : 'bg-red-500 hover:bg-red-600 text-white'
+                                                } transition duration-200`}
+                                            disabled={togglingCourseId === course.course_id}
                                         >
-                                            Delete
+                                            {togglingCourseId === course.course_id ? (
+                                                <svg
+                                                    className="animate-spin h-5 w-5 mx-auto"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <circle
+                                                        className="opacity-25"
+                                                        cx="12"
+                                                        cy="12"
+                                                        r="10"
+                                                        stroke="currentColor"
+                                                        strokeWidth="4"
+                                                    ></circle>
+                                                    <path
+                                                        className="opacity-75"
+                                                        fill="currentColor"
+                                                        d="M4 12a8 8 0 018-8v8H4z"
+                                                    ></path>
+                                                </svg>
+                                            ) : course.is_deleted ? (
+                                                'Publish'
+                                            ) : (
+                                                'Unpublish'
+                                            )}
                                         </button>
                                     </td>
                                 </tr>

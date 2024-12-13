@@ -1,69 +1,64 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import DashboardLayout from '../../../components/DashboadLayouts/DashbordLayout';
 import { Link } from 'react-router-dom';
 import Breadcrumb from '../../../components/Breadcrump';
 import EnrolledCoursesCards from '../../../components/Student/Courses/EnrolledCoursesCards';
-import courseImag1 from '../../../assets/course/1.png';
-import courseImag2 from '../../../assets/course/2.png';
-const courses = [
-    {
-        id: 1,
-        image: courseImag1,
-        name: "UX Design",
-        author: "Charlie Doyle",
-        authorImg: "author.png",
-        lesson: "5",
-        enrolled: "56",
-        price: "$72.00",
-        regularPrice: "$95.00",
-        duration: "3 Weeks",
-        type: "Beginner",
-        language: "Spanish",
-        review: "4.5",
-        title: "Dave conservatoire is the Entirely free online"
-    },
-    {
-        id: 2,
-        image: courseImag2,
-        name: "UX Design",
-        author: "Charlie Doyle",
-        authorImg: "author.png",
-        lesson: "4",
-        enrolled: "77",
-        price: "$68.00",
-        regularPrice: "$95.00",
-        duration: "2 Weeks",
-        type: "Beginner",
-        language: "Spanish",
-        review: "4.7",
-        title: "Strategy law and Organization foundation"
-    },
-    // ... more course objects as in your initial data
-];
 
 function EnrolledCourses() {
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/course/enrollmentCourses', {
+          withCredentials: true, // Include cookies
+        });
+        console.log(response.data); // Debugging: Check the structure of the response
+        setCourses(Array.isArray(response.data) ? response.data : []); // Ensure courses is an array
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        setError('Failed to fetch courses.');
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+
   return (
     <DashboardLayout>
-      <main className="p-4 md:ml-64 h-full bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+      <main className="p-4 md:ml-64 h-full bg-gray-100 dark:bg-gray-900 min-h-screen transition-colors duration-300 ">
         <div className="container mx-auto px-4">
-            <div className='my-5'>
-          <Breadcrumb pageTitle="Enrolled Courses" />
+          <div className="my-5">
+            <Breadcrumb pageTitle="Enrolled Courses" />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {courses.map((course, index) => (
-              <EnrolledCoursesCards
-                key={index}
-                courseID={course.id}
-                courseImg={course.image}
-                courseTitle={course.title}
-                courseAuthor={course.author}
-                courseType={course.type}
-                courseLesson={course.lesson}
-                courseDuration={course.duration}
-                courseReview={course.review}
-              />
-            ))}
-          </div>
+
+          {courses.length === 0 ? ( // Check if courses is empty
+            <div className="text-center text-gray-500">No enrolled courses found.</div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {courses.map((course, index) => (
+                <EnrolledCoursesCards
+                  key={index}
+                  courseID={course.course_id}
+                  courseImg={course.course_img || 'default-course-image.png'} // Provide a default image
+                  courseTitle={course.course_name}
+                  courseAuthor={course.instructor?.user?.user_name || 'Unknown Author'}
+                  courseType="Beginner" // Add type if it's not in the API response
+                  courseLesson="5 Lessons" // Add lesson count if not in the API
+                  courseDuration="3 Weeks" // Add duration if not in the API
+                  courseReview={course.rating || '0.0'}
+                />
+              ))}
+            </div>
+          )}
 
           {/* Pagination */}
           <div className="flex justify-center mt-6 space-x-2">

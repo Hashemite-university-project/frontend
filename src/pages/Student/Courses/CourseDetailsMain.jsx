@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Faq from '../../../components/Faq';
 import 'react-tabs/style/react-tabs.css';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // StarRating Component for reusability
 const StarRating = ({ rating = 0 }) => {
@@ -46,15 +49,56 @@ const CourseDetailsMain = ({
   isEnrolled = false,
 }) => {
   const [lockedMessage, setLockedMessage] = useState('');
+  const [isEnrolledState, setIsEnrolledState] = useState(isEnrolled);
+  const [loading, setLoading] = useState(false);
 
-  const handleStartNowClick = () => {
-    console.log('Start Now clicked for course ID:', course.course_id);
-    // Implement navigation to enrollment or login page if needed
+  const handleStartNowClick = async (course_id) => {
+    setLoading(true);
+    try {
+      // Determine action based on current enrollment state
+      const action = isEnrolledState ? 'remove' : 'add';
+
+      // Send the Axios POST request with action parameter
+      const response = await axios.post(
+        `http://localhost:8000/course/enrollment/${course_id}`,
+        { action }, // Request body with action
+        {
+          withCredentials: true, // Ensures cookies and credentials are sent
+          headers: {
+            'Content-Type': 'application/json', // Set appropriate headers
+          },
+        }
+      );
+
+      console.log(`${action === 'add' ? 'Enrollment' : 'Unenrollment'} successful:`, response.data);
+
+      if (action === 'add') {
+        setIsEnrolledState(true);
+        toast.success('The course saved successfully!');
+      } else {
+        setIsEnrolledState(false);
+        toast.success('The course was removed successfully!');
+      }
+    } catch (error) {
+      console.error(
+        `Error during ${isEnrolledState ? 'unenrolling' : 'enrolling'} in the course:`,
+        error.response ? error.response.data : error.message
+      );
+      toast.error(
+        error.response?.data?.message ||
+          'An error occurred. Please try again.'
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleLockedContentClick = (title) => {
-    if (!isEnrolled) {
-      setLockedMessage(`You haven't enrolled in this course yet to access "${title}".`);
+    if (!isEnrolledState) {
+      setLockedMessage(
+        `You haven't enrolled in this course yet to access "${title}".`
+      );
+      toast.warn(`You need to enroll in the course to access "${title}".`);
     } else {
       // Optionally, navigate to the content if enrolled
       // e.g., navigate(`/course/${course.course_id}/video/${title}`);
@@ -65,15 +109,27 @@ const CourseDetailsMain = ({
   const firstVideo = content.length > 0 ? content[0] : null;
 
   // Related courses (modify as needed)
-  const relatedCourses = allCourses.filter(
-    (c) => c.course_id !== course.course_id
-  ).slice(0, 2);
+  const relatedCourses = allCourses
+    .filter((c) => c.course_id !== course.course_id)
+    .slice(0, 2);
 
   // Debugging: Log content to verify it's received correctly
   console.log('Received content:', content);
 
   return (
     <div className="flex flex-col lg:flex-row mt-8">
+      {/* Toast Notifications */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        draggable
+        pauseOnFocusLoss
+      />
+
       {/* Main Content */}
       <div className="w-full lg:w-2/3 lg:pr-8">
         {/* Course Video */}
@@ -107,7 +163,6 @@ const CourseDetailsMain = ({
           <TabList className="flex space-x-4 border-b border-gray-300">
             <Tab className="py-2 px-4 focus:outline-none">Description</Tab>
             <Tab className="py-2 px-4 focus:outline-none">Curriculum</Tab>
-            <Tab className="py-2 px-4 focus:outline-none">Reviews</Tab>
             <Tab className="py-2 px-4 focus:outline-none">FAQ</Tab>
           </TabList>
 
@@ -153,47 +208,7 @@ const CourseDetailsMain = ({
             </div>
           </TabPanel>
 
-          <TabPanel>
-            <div className="mt-4">
-              <h3 className="text-2xl font-semibold mb-6">Reviews</h3>
-              <div className="flex flex-col lg:flex-row items-start lg:items-center mb-8">
-                {/* Overall Rating Display */}
-                <div className="flex items-center mb-6 lg:mb-0 lg:mr-10">
-                  <span className="text-5xl font-bold text-yellow-500 mr-4">
-                    {course.rating}
-                  </span>
-                  <div className="flex items-center space-x-1">
-                    <StarRating rating={course.rating} />
-                  </div>
-                </div>
 
-                {/* Star Rating Breakdown */}
-                <div className="w-full lg:w-2/3">
-                  <div className="space-y-3">
-                    {[5, 4, 3, 2, 1].map((star) => (
-                      <div key={star} className="flex items-center">
-                        <span className="w-12 font-semibold">
-                          {star} stars
-                        </span>
-                        <div className="relative flex-1 h-3 bg-gray-200 rounded-full mr-3">
-                          <div
-                            className="absolute top-0 left-0 h-3 bg-yellow-500 rounded-full"
-                            style={{
-                              width: `${Math.floor(Math.random() * 100)}%`,
-                            }} // Replace with actual data
-                          ></div>
-                        </div>
-                        <span className="w-8 text-gray-600">
-                          {Math.floor(Math.random() * 100)}%
-                        </span>{' '}
-                        {/* Replace with actual data */}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </TabPanel>
 
           <TabPanel>
             <div className="mt-4">
@@ -240,24 +255,19 @@ const CourseDetailsMain = ({
                     <div className="flex items-center mt-2">
                       <img
                         src={
-                          course.instructor.instructor.user_img ||
+                          course.instructor.user.user_img ||
                           '/path/to/default/author.png' // Replace with actual default image path
                         }
                         alt={
-                          course.instructor.instructor.user_name
+                          course.instructor.user.user_name
                         }
                         className="w-8 h-8 rounded-full mr-2"
                       />
                       <span className="text-gray-700">
-                        {course.instructor.instructor.user_name}
+                        {course.instructor.user?.user_name}
                       </span>
                     </div>
-                    <div className="flex items-center mt-2">
-                      <StarRating rating={parseFloat(course.rating)} />
-                      <span className="ml-1 text-gray-600">
-                        {course.rating} Reviews
-                      </span>
-                    </div>
+
                     <div className="mt-3 flex justify-between items-center">
                       <div>
                         <span className="text-indigo-600 font-semibold">
@@ -295,8 +305,8 @@ const CourseDetailsMain = ({
           <ul className="space-y-2">
             <li className="flex items-center">
               <span>
-                <strong>Instructor:</strong> 
-                {course.instructor.instructor.user_name}
+                <strong>Instructor:</strong>{' '}
+                {course.instructor.user.user_name}
               </span>
             </li>
             <li className="flex items-center">
@@ -321,10 +331,40 @@ const CourseDetailsMain = ({
             </li>
           </ul>
           <button
-            onClick={handleStartNowClick}
-            className="mt-6 w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-200 flex items-center justify-center"
+            onClick={() => handleStartNowClick(course.course_id)}
+            className={`mt-6 w-full ${
+              isEnrolledState
+                ? 'bg-red-600 hover:bg-red-700'
+                : 'bg-indigo-600 hover:bg-indigo-700'
+            } text-white py-2 px-4 rounded-md transition duration-200 flex items-center justify-center`}
+            disabled={loading}
           >
-            Start Now
+            {loading ? (
+              <svg
+                className="animate-spin h-5 w-5 mr-3 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v8H4z"
+                ></path>
+              </svg>
+            ) : isEnrolledState ? (
+              'Remove From My List'
+            ) : (
+              'Add To My List'
+            )}
           </button>
 
           {/* Locked Content Section */}
@@ -337,7 +377,9 @@ const CourseDetailsMain = ({
                 {content.slice(2).map((item) => (
                   <li key={item.video_id}>
                     <button
-                      onClick={() => handleLockedContentClick(item.video_title)}
+                      onClick={() =>
+                        handleLockedContentClick(item.video_title)
+                      }
                       className="w-full text-left bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 py-2 px-4 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-200"
                     >
                       {item.video_title}

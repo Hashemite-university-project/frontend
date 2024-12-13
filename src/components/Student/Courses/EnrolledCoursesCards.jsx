@@ -15,7 +15,7 @@ const EnrolledCoursesCards = (props) => {
             </div>
             <div className="p-3">
                 <h4 className="text-sm font-semibold text-gray-800 mb-1 hover:text-indigo-600 transition-colors duration-300">
-                    <Link to={`/course/${courseID}`}>{courseTitle || 'Design Course'}</Link>
+                    <Link to={`/course/view/${courseID}`}>{courseTitle || 'Design Course'}</Link>
                 </h4>
                 <p className="text-xs text-gray-500">{courseAuthor}</p>
                 <div className="flex items-center text-xs text-yellow-400 mt-1">
