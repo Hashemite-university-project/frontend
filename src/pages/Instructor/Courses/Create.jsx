@@ -432,7 +432,7 @@ function Create() {
   return (
     <DashboardLayout>
       <ToastContainer /> {/* Add ToastContainer to render toasts */}
-      <main className="p-4 md:ml-64 h-full pt-10 bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+      <main className=" md:ml-64 h-full bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
         <div className="my-5">
           <Breadcrumb pageTitle="Create Courses" />
         </div>
@@ -442,7 +442,7 @@ function Create() {
             {/* Step 1: Course Details */}
             {step === 1 && (
               <div>
-                <h2 className="text-2xl font-semibold text-blue-600 mb-4">Course Details</h2>
+                <h2 className="text-2xl font-semibold text-[#051941] mb-4">Course Details</h2>
                 <div className="mb-4">
                   <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">Course Name</label>
                   <input
@@ -450,7 +450,7 @@ function Create() {
                     name="name"
                     value={courseDetails.name}
                     onChange={handleCourseDetailsChange}
-                    className={`w-full border rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white ${courseErrors.name ? 'border-red-500' : ''}`}
+                    className={`w-full border rounded p-3 focus:outline-none focus:ring-2 focus:ring-[#051941] dark:bg-gray-700 dark:text-white ${courseErrors.name ? 'border-red-500' : ''}`}
                     placeholder="Enter course name"
                   />
                   {courseErrors.name && <p className="text-red-500 text-sm mt-1">{courseErrors.name}</p>}
@@ -462,7 +462,7 @@ function Create() {
                     value={courseDetails.description}
                     onChange={handleCourseDescriptionChange}
                     placeholder="Enter course description"
-                    className={`w-full rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white ${courseErrors.description ? 'border border-red-500' : ''}`}
+                    className={`w-full rounded p-3 focus:outline-none focus:ring-2 focus:ring-[#051941] dark:bg-gray-700 dark:text-white ${courseErrors.description ? 'border border-red-500' : ''}`}
                   />
                   {courseErrors.description && <p className="text-red-500 text-sm mt-1">{courseErrors.description}</p>}
                 </div>
@@ -472,7 +472,7 @@ function Create() {
                     name="category"
                     value={courseDetails.category}
                     onChange={handleCourseDetailsChange}
-                    className={`w-full border rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white ${courseErrors.category ? 'border-red-500' : ''}`}
+                    className={`w-full border rounded p-3 focus:outline-none focus:ring-2 focus:ring-[#051941] dark:bg-gray-700 dark:text-white ${courseErrors.category ? 'border-red-500' : ''}`}
                   >
                     <option value="">Select category</option>
                     {categories.map((option) => (
@@ -500,7 +500,7 @@ function Create() {
                 <div className="flex justify-end mt-6">
                   <button
                     onClick={handleCourseSubmit}
-                    className="bg-blue-500 text-white px-5 py-2 rounded hover:bg-blue-600 transition duration-200"
+                    className="bg-gradient-to-r from-[#152c5a] to-[#1e4d8b] text-white px-5 py-2 rounded hover:bg-[#0d3656] transition duration-200"
                   >
                     Save
                   </button>
@@ -511,7 +511,7 @@ function Create() {
             {/* Steps for Sections */}
             {step > 1 && (
               <div>
-                <h2 className="text-2xl font-semibold text-blue-600 mb-4">{`Add Section ${step - 1}`}</h2>
+                <h2 className="text-2xl font-semibold text-[#051941] mb-4">{`Add Section ${step - 1}`}</h2>
                 <div className="mb-4">
                   <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">Video Title</label>
                   <input
@@ -519,7 +519,7 @@ function Create() {
                     name="video_title"
                     value={currentSection.video_title}
                     onChange={handleSectionChange}
-                    className={`w-full border rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white ${sectionErrors.video_title ? 'border-red-500' : ''}`}
+                    className={`w-full border rounded p-3 focus:outline-none focus:ring-2 focus:ring-[#051941] dark:bg-gray-700 dark:text-white ${sectionErrors.video_title ? 'border-red-500' : ''}`}
                     placeholder="Enter video title"
                   />
                   {sectionErrors.video_title && <p className="text-red-500 text-sm mt-1">{sectionErrors.video_title}</p>}
@@ -531,7 +531,7 @@ function Create() {
                     value={currentSection.videoDescription}
                     onChange={handleVideoDescriptionChange}
                     placeholder="Enter video description"
-                    className={`w-full rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white ${sectionErrors.videoDescription ? 'border border-red-500' : ''}`}
+                    className={`w-full rounded p-3 focus:outline-none focus:ring-2 focus:ring-[#051941] dark:bg-gray-700 dark:text-white ${sectionErrors.videoDescription ? 'border border-red-500' : ''}`}
                   />
                   {sectionErrors.videoDescription && <p className="text-red-500 text-sm mt-1">{sectionErrors.videoDescription}</p>}
                 </div>
@@ -553,7 +553,7 @@ function Create() {
                   <div className="flex space-x-4">
                     <button
                       onClick={saveAndAddNewSection}
-                      className="bg-blue-500 text-white px-5 py-2 rounded hover:bg-blue-600 transition duration-200"
+                      className="bg-gradient-to-r from-[#152c5a] to-[#1e4d8b] text-white px-5 py-2 rounded hover:bg-[#0d3656] transition duration-200"
                     >
                       Save and Add New Section
                     </button>
@@ -588,7 +588,7 @@ function Create() {
                       {isCompleted ? (
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="h-4 w-4 text-blue-500 dark:text-blue-400"
+                          className="h-4 w-4 text-[#051941] dark:text-blue-400"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                         >
@@ -599,7 +599,7 @@ function Create() {
                           />
                         </svg>
                       ) : isCurrent ? (
-                        <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                        <div className="w-3 h-3 bg-[#051941] rounded-full"></div>
                       ) : (
                         <div className="w-3 h-3 bg-gray-300 rounded-full dark:bg-gray-600"></div>
                       )}
@@ -611,7 +611,7 @@ function Create() {
                         isCompleted
                           ? 'text-gray-700 dark:text-gray-300'
                           : isCurrent
-                          ? 'text-blue-500 dark:text-blue-400 font-semibold'
+                          ? 'text-[#051941] dark:text-blue-400 font-semibold'
                           : 'text-gray-500 dark:text-gray-500'
                       }`}
                     >

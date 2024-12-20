@@ -55,14 +55,14 @@ function ProjectsList() {
   };
 
   return (
-    <div>
+    <div className="container mx-auto py-6">
       <ToastContainer />
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
           {/* Search Input */}
           <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
               <input
                   type="text"
-                  className="w-full p-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  className="w-full p-3 border-2 border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-[#0d3656] transition duration-200"
                   placeholder="Search projects..."
                   value={search}
                   onChange={handleSearchChange}
@@ -70,26 +70,26 @@ function ProjectsList() {
           </div>
 
           {/* Add Project Button */}
-          <NavLink to='/instructor/create/project' className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+          <NavLink to='/instructor/create/project' className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-[#152c5a] to-[#1e4d8b] text-white font-semibold rounded-lg hover:bg-gradient-to-l hover:bg-white/20  focus:outline-none focus:ring-2 focus:ring-[#051941] transition duration-200">
               Add Project
           </NavLink>
       </div>
 
       {/* Projects Table */}
-      <div className="overflow-x-auto shadow-md sm:rounded-lg">
+      <div className="overflow-x-auto shadow-lg sm:rounded-lg bg-white">
           <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-              <thead className="bg-gray-50 dark:bg-gray-700">
+              <thead className="bg-gradient-to-r from-[#152c5a] to-[#1e4d8b] text-white">
                   <tr>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider">
                           Thumbnail
                       </th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider">
                           Project Name
                       </th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
+                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider hidden sm:table-cell">
                           Category
                       </th>
-                      <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-200 uppercase tracking-wider">
                           Action
                       </th>
                   </tr>
@@ -118,7 +118,7 @@ function ProjectsList() {
                               </td>
                               {/* Action */}
                               <td className="px-6 py-4 text-center space-x-2">
-                                  <NavLink to={`/instructor/edit/project/${project.project_id}`} className="text-blue-600 dark:text-blue-500 hover:underline text-sm sm:text-base">
+                                  <NavLink to={`/instructor/edit/project/${project.project_id}`} className="text-blue-600 dark:text-[#152c5a] hover:underline text-sm sm:text-base">
                                       Edit
                                   </NavLink>
                                   <button

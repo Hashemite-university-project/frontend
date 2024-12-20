@@ -5,15 +5,15 @@ const AllCoursesCards = (props) => {
     const { courseID, courseImg, courseTitle, courseAuthor, courseType, courseLesson, courseDuration, courseReview } = props;
 
     return (
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105">
+        <div className="bg-white max-h-72 shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105">
             <div className="relative h-40 md:h-32 lg:h-40">
                 <img className="w-full h-full object-cover" src={courseImg} alt={courseTitle} />
-                <span className="absolute top-2 left-2 bg-indigo-600 text-white text-xs font-semibold py-1 px-2 rounded">
+                <span className="absolute top-2 left-2 bg-[#152c5a] text-white text-xs font-semibold py-1 px-2 rounded">
                     {courseType || 'Beginner'}
                 </span>
             </div>
             <div className="p-3">
-                <h4 className="text-sm font-semibold text-gray-800 mb-1 hover:text-indigo-600 transition-colors duration-300">
+                <h4 className="text-sm font-semibold text-gray-800 mb-1 hover:underline transition-colors duration-300">
                     <Link to={`/course/${courseID}`}>{courseTitle || 'Design Course'}</Link>
                 </h4>
                 <p className="text-xs text-gray-500">{courseAuthor}</p>

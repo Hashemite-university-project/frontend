@@ -8,7 +8,7 @@ import Breadcrumb from '../../../components/Breadcrump';
 function Index() {
     return (
         <DashboardLayout>
-            <main className="p-4 md:ml-64 h-full pt-10 bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+            <main className=" md:ml-64 h-full bg-meta-2 dark:bg-gray-900 transition-colors duration-300">
                 <div className="react-wrapper">
                     {/* Breadcrumb Section */}
                     <div className='my-5'>

@@ -73,10 +73,10 @@ function EditCourses() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-6xl mx-auto bg-white dark:bg-gray-700  shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-[#0d3656] to-[#051941] p-6 flex justify-between items-center">
+        <div className="bg-gradient-to-r from-[#152c5a] to-[#1e4d8b] p-6 flex justify-between items-center">
           <div className="flex items-center space-x-4">
             <BookOpen className="text-white w-10 h-10" />
             <h1 className="text-3xl font-bold text-white">Course Editor</h1>

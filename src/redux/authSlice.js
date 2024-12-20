@@ -25,8 +25,11 @@ export const signIn = createAsyncThunk(
       const response = await axios.post(
         apiUrl,
         { user_email, password },
-        { withCredentials: true }
+        // { withCredentials: true }
       );
+      console.log(response.data.access_token);
+      Cookies.set('access_token', response.data.access_token);
+      Cookies.set('refresh_token', response.data.refresh_token);
       Cookies.set('token', response.data.access_token, { expires: 7, secure: true });
       return response.data;
     } catch (error) {
@@ -47,7 +50,7 @@ export const signUp = createAsyncThunk(
     }
 
     try {
-      const response = await axios.post(apiUrl, formData, { withCredentials: true });
+      const response = await axios.post(apiUrl, formData);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Sign Up Failed');

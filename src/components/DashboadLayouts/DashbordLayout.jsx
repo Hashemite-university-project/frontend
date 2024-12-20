@@ -16,7 +16,7 @@ function DashboardLayout({ children }) {
   };
 
   return (
-    <div className="antialiased bg-gray-50 dark:bg-gray-900 flex h-full overflow-hidden">
+    <div className="antialiased bg-gray-100 dark:bg-gray-900 flex h-full overflow-hidden">
       {/* Sidebar and Overlay Wrapper */}
       <div className={`fixed z-40 flex ${isDrawerOpen ? 'md:hidden' : ''}`}>
         {isDrawerOpen && (
@@ -34,7 +34,7 @@ function DashboardLayout({ children }) {
         <Header toggleDrawer={toggleDrawer} />
 
         {/* Page Content */}
-        <main className="flex-1 p-4 mt-16 overflow-y-auto">
+        <main className="flex-1 py-4 px-14 mt-16 bg-gray-100 min-h-screen">
           {children}
         </main>
       </div>

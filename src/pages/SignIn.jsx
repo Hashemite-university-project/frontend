@@ -66,7 +66,7 @@ function SignIn() {
             <div className="max-w-xl w-full space-y-8 p-10 bg-white rounded-xl z-10">
                 <div className="text-center">
                     <h2 className="mt-6 text-3xl font-bold text-gray-900">Welcome Back!</h2>
-                    <p className="mt-2 text-sm text-gray-600">Sign In As</p>
+                    {/* <p className="mt-2 text-sm text-gray-600">Sign In As</p> */}
                 </div>
 
                 <form className="mt-8 space-y-6" onSubmit={handleSignIn}>
