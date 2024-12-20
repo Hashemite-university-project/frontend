@@ -9,6 +9,10 @@ function EnrolledCourses() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [UnSubcourses, setUnSubCourses] = useState([]);
+  const [UnSubloading, setUnSubLoading] = useState(true);
+  const [UnSuberror, setUnSubError] = useState(null);
+  const [checkoutLoading, setCheckoutLoading] = useState(false); // Loading state for checkout
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -29,6 +33,45 @@ function EnrolledCourses() {
     fetchCourses();
   }, []);
 
+  useEffect(() => {
+    const fetchUnSubCourses = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/course/getUnSubCourses', {
+          withCredentials: true, // Include cookies
+        });
+        console.log(response.data); // Debugging: Check the structure of the response
+        setUnSubCourses(Array.isArray(response.data) ? response.data : []); // Ensure courses is an array
+        setUnSubLoading(false);
+      } catch (err) {
+        console.error(err);
+        setUnSubError('Failed to fetch UnSub courses.');
+        setUnSubLoading(false);
+      }
+    };
+
+    fetchUnSubCourses();
+  }, []);
+
+  const handleCheckout = async () => {
+    setCheckoutLoading(true); // Start loading state for checkout
+    try {
+      const response = await axios.post('http://localhost:8000/create-checkout-session',{}, {
+        withCredentials: true,
+      });
+      if (response.data && response.data.url) {
+        // Redirect to the Stripe checkout URL
+        window.location.href = response.data.url;
+      } else {
+        throw new Error('Checkout session URL not found');
+      }
+    } catch (err) {
+      console.error('Failed to create checkout session:', err);
+      alert('Failed to initiate checkout. Please try again.');
+    } finally {
+      setCheckoutLoading(false); // Stop loading state if there's an error
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
@@ -40,7 +83,7 @@ function EnrolledCourses() {
             <Breadcrumb pageTitle="Enrolled Courses" />
           </div>
 
-          {courses.length === 0 ? ( // Check if courses is empty
+          {courses.length === 0 ? (
             <div className="text-center text-gray-500">No enrolled courses found.</div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -51,22 +94,56 @@ function EnrolledCourses() {
                   courseImg={course.course_img || 'default-course-image.png'} // Provide a default image
                   courseTitle={course.course_name}
                   courseAuthor={course.instructor?.user?.user_name || 'Unknown Author'}
-                  courseType="Beginner" // Add type if it's not in the API response
-                  courseLesson="5 Lessons" // Add lesson count if not in the API
-                  courseDuration="3 Weeks" // Add duration if not in the API
+                  courseType="Beginner"
+                  courseLesson="5 Lessons"
+                  courseDuration="3 Weeks"
                   courseReview={course.rating || '0.0'}
                 />
               ))}
             </div>
           )}
 
-          {/* Pagination */}
-          <div className="flex justify-center mt-6 space-x-2">
-            <Link className="px-3 py-1 bg-indigo-600 text-white rounded" to="#">1</Link>
-            <Link className="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100" to="#">2</Link>
-            <Link className="flex items-center px-3 py-1 border border-gray-300 rounded hover:bg-gray-100" to="#">
-              Next <svg className="w-4 h-4 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            </Link>
+          <div className="mt-6 bg-white shadow-lg rounded-lg overflow-hidden transition-transform">
+            <div
+              className="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
+              role="alert"
+            >
+              <span className="font-medium">Check alert!</span> You need to check out to view these courses. Please complete your checkout process to access the content.
+            </div>
+
+            {UnSubcourses.length === 0 ? (
+              <div className="text-center text-gray-500">No unsubscribed courses found.</div>
+            ) : (
+              <div className="grid m-3 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {UnSubcourses.map((course, index) => (
+                  <EnrolledCoursesCards
+                    key={index}
+                    border={true}
+                    courseID={course.course_id}
+                    courseImg={course.course_img || 'default-course-image.png'}
+                    courseTitle={course.course_name}
+                    courseAuthor={course.instructor?.user?.user_name || 'Unknown Author'}
+                    courseType="Beginner"
+                    courseLesson="5 Lessons"
+                    courseDuration="3 Weeks"
+                    courseReview={course.rating || '0.0'}
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* Checkout Button */}
+            <div className="flex justify-center m-6 space-x-2">
+              <button
+                onClick={handleCheckout}
+                disabled={checkoutLoading} // Disable button while loading
+                className={`bg-blue-500 text-white font-bold py-2 px-4 rounded-full ${
+                  checkoutLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'
+                }`}
+              >
+                {checkoutLoading ? 'Redirecting to checkout...' : 'Checkout'}
+              </button>
+            </div>
           </div>
         </div>
       </main>

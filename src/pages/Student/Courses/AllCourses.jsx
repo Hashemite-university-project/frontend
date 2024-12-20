@@ -13,6 +13,10 @@ function AllCourses() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const coursesPerPage = 8;
+
   // Function to fetch courses from the API
   const fetchCourses = async (search = '') => {
     setLoading(true);
@@ -43,6 +47,7 @@ function AllCourses() {
       }));
 
       setCourses(fetchedCourses);
+      setCurrentPage(1); // Reset to first page on new fetch
     } catch (err) {
       console.error(err);
       setError('Failed to fetch courses. Please try again later.');
@@ -61,6 +66,49 @@ function AllCourses() {
     setSearchTerm(searchValue);
   };
 
+  // Calculate total pages
+  const totalPages = Math.ceil(courses.length / coursesPerPage);
+
+  // Get current courses
+  const indexOfLastCourse = currentPage * coursesPerPage;
+  const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
+  const currentCourses = courses.slice(indexOfFirstCourse, indexOfLastCourse);
+
+  // Handle page change
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // Optional: Scroll to top on page change
+  };
+
+  // Generate page numbers for pagination (up to 8)
+  const getPageNumbers = () => {
+    const pageNumbers = [];
+    const maxPageNumbers = 8;
+    let startPage = 1;
+    let endPage = totalPages;
+
+    if (totalPages > maxPageNumbers) {
+      const maxPagesBeforeCurrentPage = Math.floor(maxPageNumbers / 2);
+      const maxPagesAfterCurrentPage = Math.ceil(maxPageNumbers / 2) - 1;
+      if (currentPage <= maxPagesBeforeCurrentPage) {
+        startPage = 1;
+        endPage = maxPageNumbers;
+      } else if (currentPage + maxPagesAfterCurrentPage >= totalPages) {
+        startPage = totalPages - maxPageNumbers + 1;
+        endPage = totalPages;
+      } else {
+        startPage = currentPage - maxPagesBeforeCurrentPage;
+        endPage = currentPage + maxPagesAfterCurrentPage;
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(i);
+    }
+
+    return pageNumbers;
+  };
+
   return (
     <DashboardLayout>
       <main className=" md:ml-64 h-full bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
@@ -76,8 +124,8 @@ function AllCourses() {
                 <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
                   {loading && <p>Loading courses...</p>}
                   {error && <p className="text-red-500">{error}</p>}
-                  {!loading && !error && courses.length === 0 && <p>No courses found.</p>}
-                  {!loading && !error && courses.map((data) => (
+                  {!loading && !error && currentCourses.length === 0 && <p>No courses found.</p>}
+                  {!loading && !error && currentCourses.map((data) => (
                     <AllCoursesCards
                       key={data.id}
                       courseID={data.id}
@@ -97,9 +145,27 @@ function AllCourses() {
 
                 {/* Pagination */}
                 <div className="flex justify-center mt-6 space-x-2 col-span-1 lg:col-span-3">
-                  <button className="px-3 py-1 bg-[#152c5a] text-white rounded">1</button>
-                  <button className="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100">2</button>
-                  <button className="flex items-center px-3 py-1 border border-gray-300 rounded hover:bg-gray-100">
+                  <button
+                    onClick={() => paginate(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className={`px-3 py-1 border border-gray-300 rounded ${currentPage === 1 ? 'bg-gray-200 cursor-not-allowed' : 'hover:bg-gray-100'}`}
+                  >
+                    Previous
+                  </button>
+                  {getPageNumbers().map((number) => (
+                    <button
+                      key={number}
+                      onClick={() => paginate(number)}
+                      className={`px-3 py-1 border border-gray-300 rounded ${currentPage === number ? 'bg-[#152c5a] text-white' : 'hover:bg-gray-100'}`}
+                    >
+                      {number}
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => paginate(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className={`px-3 py-1 border border-gray-300 rounded ${currentPage === totalPages ? 'bg-gray-200 cursor-not-allowed' : 'hover:bg-gray-100 flex items-center'}`}
+                  >
                     Next
                     <svg className="w-4 h-4 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="5" y1="12" x2="19" y2="12"></line>
