@@ -176,7 +176,7 @@ function Feedback() {
                         <motion.div
                             initial={{ opacity: 0, y: 100 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 1.5 }}
+                            transition={{ duration: 1.0 }}
                             viewport={{ once: true, amount: 0.2 }}
                         >
                         <div class="relative lg:-top-12">
@@ -189,8 +189,8 @@ function Feedback() {
                     <div>
                         <p class="text-sm font-semibold tracking-widest text-gray-500 uppercase">Why Should your choose?</p>
                         <h2 class="mt-8 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl lg:leading-tight">Get work done, fast!</h2>
-                        <p class="text-xl leading-relaxed text-gray-200 mt-9">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia conse duis enim velit mollit. Exercitation veniam.</p>
-                        <p class="mt-6 text-xl leading-relaxed text-gray-200">Velit officia conse duis enim velit mollit. Exercit ation veniam consequat sunt nostrud amet.</p>
+                        <p class="text-xl leading-relaxed text-gray-200 mt-9">At ScepHub, we bring your ideas to life with efficiency and precision. Our team of experienced professionals works collaboratively to deliver high-quality software solutions that meet your unique needs. We pride ourselves on delivering fast, reliable, and scalable results.</p>
+                        <p class="mt-6 text-xl leading-relaxed text-gray-200">From startups to enterprises, we help clients achieve their goals through innovative technology and seamless project execution. Let us accelerate your success with solutions that are built to last.</p>
                         {/* <a href="#" title="" class="inline-flex items-center justify-center px-10 py-4 mt-12 text-base font-semibold text-white transition-all duration-200 bg-blue-600 rounded-md hover:bg-blue-700 focus:bg-blue-700" role="button"> Explore more </a> */}
                     </div>
                 </div>
@@ -220,11 +220,11 @@ function Feedback() {
                   <div className="flex flex-col justify-between flex-1 p-8">
                     <div className="flex-1">
                       <blockquote>
-                      <p className="text-base text-gray-800">
+                      <p className="text-base text-gray-800 break-words">
                         {feedback.feedbackParagraph.length > 180 
                             ? feedback.feedbackParagraph.slice(0, 180) + '...' 
                             : feedback.feedbackParagraph}
-                        </p>
+                    </p>
                       </blockquote>
                     </div>
                     <div className="mt-8">

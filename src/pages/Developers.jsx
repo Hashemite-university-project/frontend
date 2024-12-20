@@ -43,7 +43,8 @@ function Developers() {
     <HomeTopCourses/>
 
     {/* ================================================> */}
-    <div className="w-full h-5/6 bg-gray-100 dark:bg-gray-800 mb-16">
+    <div className="w-full h-5/6 bg-gray-100 dark:bg-gray-800 mb-16 flex flex-col items-center">
+    <h1 className="text-xl font-extrabold leading-tight text-black sm:text-4xl lg:text-3xl mt-8">Meet Our Top Performers</h1>
         <div className="w-full h-screen flex flex-wrap justify-center items-center gap-32">
             {user.map((user) => (
             <div
