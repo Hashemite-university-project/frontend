@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { FaTachometerAlt, FaProjectDiagram, FaTasks, FaCalendarAlt, FaBook, FaChalkboardTeacher ,FaUsers,
     FaFileAlt,
     FaEnvelope,
-    FaThLarge,} from 'react-icons/fa';
+    FaThLarge, FaClipboardList } from 'react-icons/fa';
 
 function Sidebar({ isDrawerOpen, closeDrawer }) {
     // Set initial role state based on localStorage
@@ -76,7 +76,7 @@ function Sidebar({ isDrawerOpen, closeDrawer }) {
                                     to="/enrolled-projects"
                                     className="flex items-center p-2 text-base font-medium text-white rounded-lg dark:text-white hover:bg-gray-500 dark:hover:bg-gray-700 group"
                                 >
-                                    <FaProjectDiagram className="w-6 h-6 text-gray-100 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white" />
+                                    <FaClipboardList  className="w-6 h-6 text-gray-100 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white" />
                                     <span className="ml-3">Enrolled Projects</span>
                                 </NavLink>
                             </li>

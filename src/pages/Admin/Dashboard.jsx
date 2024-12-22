@@ -3,6 +3,7 @@ import DashboardLayout from '../../components/DashboadLayouts/DashbordLayout';
 import { CountUp } from 'countup.js';
 import Chart from 'react-apexcharts';
 import axios from 'axios';
+import { BarChart, FileText, DollarSign, Clipboard } from 'lucide-react'; // Importing icons
 
 function Dashboard() {
   const [dashboardData, setDashboardData] = useState({
@@ -76,52 +77,64 @@ function Dashboard() {
 
   return (
     <DashboardLayout>
-      <main className="p-4 md:ml-64 h-screen pt-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Total Courses */}
-          <div className="p-6 bg-white shadow rounded-lg text-center">
-            <h2 className="text-2xl font-bold text-gray-700"> <Counter endValue={dashboardData.totalCourses} />+</h2>
-            <p className="text-gray-500 mt-2">Total Courses</p>
-          </div>
+<main className="p-6 md:ml-64 min-h-screen bg-gray-100">
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    {/* Total Courses */}
+    <div className="p-6 bg-white shadow rounded-xl text-center w-full hover:shadow-2xl transition duration-300 transform hover:scale-105">
+      <FileText className="w-6 h-6 text-gray-500 mx-auto mb-4" />
+      <h2 className="text-3xl font-semibold text-gray-700">
+        <Counter endValue={dashboardData.totalCourses} />+
+      </h2>
+      <p className="text-gray-500 mt-2 text-lg">Total Courses</p>
+    </div>
 
-          {/* Total Projects */}
-          <div className="p-6 bg-white shadow rounded-lg text-center">
-            <h2 className="text-2xl font-bold text-gray-700"> <Counter endValue={dashboardData.totalProjects} /></h2>
-            <p className="text-gray-500 mt-2">Total Projects</p>
-          </div>
+    {/* Total Projects */}
+    <div className="p-6 bg-white shadow rounded-xl text-center w-full hover:shadow-2xl transition duration-300 transform hover:scale-105">
+      <Clipboard className="w-6 h-6 text-gray-500 mx-auto mb-4" />
+      <h2 className="text-3xl font-semibold text-gray-700">
+        <Counter endValue={dashboardData.totalProjects} />
+      </h2>
+      <p className="text-gray-500 mt-2 text-lg">Total Projects</p>
+    </div>
 
-          {/* Monthly Payment */}
-          <div className="p-6 bg-white shadow rounded-lg text-center">
-            <h2 className="text-2xl font-bold text-gray-700">${ <Counter endValue={dashboardData.monthPayment} />}</h2>
-            <p className="text-gray-500 mt-2">This Month Payment</p>
-          </div>
+    {/* Monthly Payment */}
+    <div className="p-6 bg-white shadow rounded-xl text-center w-full hover:shadow-2xl transition duration-300 transform hover:scale-105">
+      <DollarSign className="w-6 h-6 text-gray-500 mx-auto mb-4" />
+      <h2 className="text-3xl font-semibold text-gray-700">
+        ${<Counter endValue={dashboardData.monthPayment} />}
+      </h2>
+      <p className="text-gray-500 mt-2 text-lg">This Month Payment</p>
+    </div>
 
-          {/* Upcoming Projects */}
-          <div className="p-6 bg-white shadow rounded-lg text-center">
-            <h2 className="text-2xl font-bold text-gray-700"> <Counter endValue={dashboardData.inProgressProjects} /></h2>
-            <p className="text-gray-500 mt-2">in Progress Projects</p>
-          </div>
-        </div>
+    {/* Upcoming Projects */}
+    <div className="p-6 bg-white shadow rounded-xl text-center w-full hover:shadow-2xl transition duration-300 transform hover:scale-105">
+      <BarChart className="w-6 h-6 text-gray-500 mx-auto mb-4" />
+      <h2 className="text-3xl font-semibold text-gray-700">
+        <Counter endValue={dashboardData.inProgressProjects} />
+      </h2>
+      <p className="text-gray-500 mt-2 text-lg">In Progress Projects</p>
+    </div>
+  </div>
 
-                  {/* Profile Completion and Project Progress Charts */}
-                  <div className="w-full mt-8 grid gap-4 md:grid-cols-2">
-            <div className="p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg dark:bg-gray-800">
-              <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-4">Project Progress</h3>
-              <Chart
-                options={projectProgressOptions}
-                series={projectProgressSeries}
-                type="bar"
-                height={350}
-              />
-            </div>
-            <div className="p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg dark:bg-gray-800">
-              <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-4">Profile completed</h3>
-              <div className="donut">
+  {/* Profile Completion and Project Progress Charts */}
+  <div className="w-full mt-10 grid gap-8 md:grid-cols-2">
+    <div className="p-6 bg-white shadow-xl rounded-lg border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-800">
+      <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6 text-center">Project Progress</h3>
+      <Chart
+        options={projectProgressOptions}
+        series={projectProgressSeries}
+        type="bar"
+        height={350}
+      />
+    </div>
+    <div className="p-6 bg-white shadow-xl rounded-lg border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-800">
+      <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6 text-center">Profile Completion</h3>
+      <div className="flex justify-center">
         <Chart options={state.options} series={state.series} type="donut" width="380" />
       </div>
-            </div>
-          </div>
-      </main>
+    </div>
+  </div>
+</main>
     </DashboardLayout>
   );
 }

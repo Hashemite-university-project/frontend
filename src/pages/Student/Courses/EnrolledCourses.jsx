@@ -34,8 +34,8 @@ function EnrolledCourses() {
 
   return (
     <DashboardLayout>
-      <main className="p-4 md:ml-64 h-full bg-gray-100 dark:bg-gray-900 min-h-screen transition-colors duration-300 ">
-        <div className="container mx-auto px-4">
+      <main className="md:ml-64 h-full bg-gray-100 dark:bg-gray-900 min-h-screen transition-colors duration-300 ">
+        <div className="container">
           <div className="my-5">
             <Breadcrumb pageTitle="Enrolled Courses" />
           </div>
@@ -62,7 +62,7 @@ function EnrolledCourses() {
 
           {/* Pagination */}
           <div className="flex justify-center mt-6 space-x-2">
-            <Link className="px-3 py-1 bg-indigo-600 text-white rounded" to="#">1</Link>
+            <Link className="px-3 py-1 bg-gradient-to-r from-[#152c5a] to-[#1e4d8b] text-white rounded" to="#">1</Link>
             <Link className="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100" to="#">2</Link>
             <Link className="flex items-center px-3 py-1 border border-gray-300 rounded hover:bg-gray-100" to="#">
               Next <svg className="w-4 h-4 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>

@@ -72,11 +72,11 @@ function Dashboard() {
 
   return (
     <DashboardLayout>
-      <main className="p-4 md:ml-64 h-screen pt-20">
+      <main className="p-6 md:ml-64 h-screen mb-20">
         <div className="flex flex-wrap -m-4 text-center">
           {/* Total Courses Card */}
           <div className="p-4 md:w-1/4 sm:w-1/2 w-full">
-            <div className="border-2 border-gray-200 dark:border-gray-700 px-4 py-6 rounded-lg dark:bg-gray-800">
+            <div className="bg-white dark:bg-gray-800 rounded-sm shadow-lg p-6 transform transition-all hover:scale-105">
               <svg
                 fill="none"
                 stroke="currentColor"
@@ -96,8 +96,8 @@ function Dashboard() {
           </div>
 
           {/* Completed Projects Card */}
-          <div className="p-4 md:w-1/4 sm:w-1/2 w-full">
-            <div className="border-2 border-gray-200 dark:border-gray-700 px-4 py-6 rounded-lg dark:bg-gray-800">
+          <div className="p-4 md:w-1/4 sm:w-1/2 w-full ">
+            <div className="bg-white dark:bg-gray-800 rounded-sm shadow-lg p-6 transform transition-all hover:scale-105">
               <svg
                 fill="none"
                 stroke="currentColor"
@@ -119,7 +119,7 @@ function Dashboard() {
 
           {/* Active Courses Card */}
           <div className="p-4 md:w-1/4 sm:w-1/2 w-full">
-            <div className="border-2 border-gray-200 dark:border-gray-700 px-4 py-6 rounded-lg dark:bg-gray-800">
+            <div className="bg-white dark:bg-gray-800 rounded-sm shadow-lg p-6 transform transition-all hover:scale-105">
               <svg
                 fill="none"
                 stroke="currentColor"
@@ -141,7 +141,7 @@ function Dashboard() {
 
           {/* Upcoming Deadlines Card */}
           <div className="p-4 md:w-1/4 sm:w-1/2 w-full">
-            <div className="border-2 border-gray-200 dark:border-gray-700 px-4 py-6 rounded-lg dark:bg-gray-800">
+            <div className="bg-white dark:bg-gray-800 rounded-sm shadow-lg p-6 transform transition-all hover:scale-105">
               <svg
                 fill="none"
                 stroke="currentColor"
@@ -162,8 +162,8 @@ function Dashboard() {
           </div>
 
           {/* Profile Completion and Project Progress Charts */}
-          <div className="w-full mt-8 grid gap-4 md:grid-cols-2">
-            <div className="p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg dark:bg-gray-800">
+          <div className="w-full mt-8 grid gap-4 md:grid-cols-2 mx-4 ">
+            <div className="bg-white dark:bg-gray-800 rounded-sm shadow-lg p-6">
               <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-4">Project Progress</h3>
               <Chart
                 options={projectProgressOptions}
@@ -172,7 +172,7 @@ function Dashboard() {
                 height={350}
               />
             </div>
-            <div className="p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg dark:bg-gray-800">
+            <div className="bg-white dark:bg-gray-800 rounded-sm shadow-lg p-6">
               <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-4">Profile completed</h3>
               <Chart
                 options={courseProgressOptions}
