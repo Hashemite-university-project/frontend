@@ -55,7 +55,7 @@ function EnrolledCourses() {
   const handleCheckout = async () => {
     setCheckoutLoading(true); // Start loading state for checkout
     try {
-      const response = await axios.post('http://localhost:8000/create-checkout-session',{}, {
+      const response = await axios.post('http://localhost:8000/create-checkout-session', {}, {
         withCredentials: true,
       });
       if (response.data && response.data.url) {
@@ -115,20 +115,23 @@ function EnrolledCourses() {
               <div className="text-center text-gray-500">No unsubscribed courses found.</div>
             ) : (
               <div className="grid m-3 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {UnSubcourses.map((course, index) => (
-                  <EnrolledCoursesCards
-                    key={index}
-                    border={true}
-                    courseID={course.course_id}
-                    courseImg={course.course_img || 'default-course-image.png'}
-                    courseTitle={course.course_name}
-                    courseAuthor={course.instructor?.user?.user_name || 'Unknown Author'}
-                    courseType="Beginner"
-                    courseLesson="5 Lessons"
-                    courseDuration="3 Weeks"
-                    courseReview={course.rating || '0.0'}
-                  />
-                ))}
+                {UnSubcourses.map((enrollment, index) => {
+                  const course = enrollment.course; // Access the nested course object
+                  return (
+                    <EnrolledCoursesCards
+                      key={index}
+                      border={true}
+                      courseID={course.course_id}
+                      courseImg={course.course_img || 'default-course-image.png'}
+                      courseTitle={course.course_name}
+                      courseAuthor={course.instructor?.user?.user_name || 'Unknown Author'}
+                      courseType="Beginner" // Replace with API-provided data if available
+                      courseLesson="5 Lessons" // Replace with API-provided data if available
+                      courseDuration="3 Weeks" // Replace with API-provided data if available
+                      courseReview={course.rating || '0.0'}
+                    />
+                  );
+                })}
               </div>
             )}
 
@@ -137,9 +140,8 @@ function EnrolledCourses() {
               <button
                 onClick={handleCheckout}
                 disabled={checkoutLoading} // Disable button while loading
-                className={`bg-blue-500 text-white font-bold py-2 px-4 rounded-full ${
-                  checkoutLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'
-                }`}
+                className={`bg-blue-500 text-white font-bold py-2 px-4 rounded-full ${checkoutLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'
+                  }`}
               >
                 {checkoutLoading ? 'Redirecting to checkout...' : 'Checkout'}
               </button>
