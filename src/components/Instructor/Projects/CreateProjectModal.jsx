@@ -87,110 +87,111 @@ function CreateProjectModal({ isOpen, onClose, fetchProjects }) {
     return (
         <>
             <ToastContainer />
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-11/12 sm:w-2/3 lg:w-1/2">
-                    <div className="px-6 py-4 border-b flex justify-between items-center">
-                        <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200">Create New Project</h2>
-                        <button
-                            className="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-500 focus:outline-none"
-                            onClick={onClose}
-                        >
-                            ×
-                        </button>
-                    </div>
-                    <form onSubmit={handleSubmit} className="p-6 space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Project Name</label>
-                            <input
-                                type="text"
-                                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring focus:ring-[#0d3656]"
-                                value={projectName}
-                                onChange={(e) => setProjectName(e.target.value)}
-                                required
-                            />
-                        </div>
+            <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50">
+  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-11/12 sm:w-2/3 lg:w-1/2">
+    <div className="px-4 py-3 border-b flex justify-between items-center">
+      <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200">Create New Project</h2>
+      <button
+        className="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-500 focus:outline-none"
+        onClick={onClose}
+      >
+        ×
+      </button>
+    </div>
+    <form onSubmit={handleSubmit} className="p-4 space-y-3">
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Project Name</label>
+        <input
+          type="text"
+          className="w-full mt-1 p-1 border rounded-md focus:outline-none focus:ring focus:ring-[#0d3656]"
+          value={projectName}
+          onChange={(e) => setProjectName(e.target.value)}
+          required
+        />
+      </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Project Description</label>
-                            <textarea
-                                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring focus:ring-[#0d3656]"
-                                value={projectDescription}
-                                onChange={(e) => setProjectDescription(e.target.value)}
-                                rows="4"
-                                required
-                            ></textarea>
-                        </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Project Description</label>
+        <textarea
+          className="w-full mt-1 p-1 border rounded-md focus:outline-none focus:ring focus:ring-[#0d3656]"
+          value={projectDescription}
+          onChange={(e) => setProjectDescription(e.target.value)}
+          rows="3" // Reduced rows for a smaller textarea
+          required
+        ></textarea>
+      </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
-                            <select
-                                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring focus:ring-[#0d3656]"
-                                value={projectCategory}
-                                onChange={(e) => setProjectCategory(e.target.value)}
-                                required
-                            >
-                                <option value="">Select a Category</option>
-                                {categories.map(category => (
-                                    <option key={category.category_id} value={category.category_id}>
-                                        {category.category_name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
+        <select
+          className="w-full mt-1 p-1 border rounded-md focus:outline-none focus:ring focus:ring-[#0d3656]"
+          value={projectCategory}
+          onChange={(e) => setProjectCategory(e.target.value)}
+          required
+        >
+          <option value="">Select a Category</option>
+          {categories.map(category => (
+            <option key={category.category_id} value={category.category_id}>
+              {category.category_name}
+            </option>
+          ))}
+        </select>
+      </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Start Date</label>
-                            <input
-                                type="date"
-                                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring focus:ring-[#0d3656]"
-                                value={startDate}
-                                onChange={(e) => setStartDate(e.target.value)}
-                            />
-                        </div>
+      <div className="flex justify-between space-x-4">
+        <div className="w-1/2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Start Date</label>
+          <input
+            type="date"
+            className="w-full mt-1 p-1 border rounded-md focus:outline-none focus:ring focus:ring-[#0d3656]"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+        </div>
+        <div className="w-1/2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">End Date</label>
+          <input
+            type="date"
+            className="w-full mt-1 p-1 border rounded-md focus:outline-none focus:ring focus:ring-[#0d3656]"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+        </div>
+      </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">End Date</label>
-                            <input
-                                type="date"
-                                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring focus:ring-[#0d3656]"
-                                value={endDate}
-                                onChange={(e) => setEndDate(e.target.value)}
-                            />
-                        </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Required Skills (comma-separated)</label>
+        <input
+          type="text"
+          className="w-full mt-1 p-1 border rounded-md focus:outline-none focus:ring focus:ring-[#0d3656]"
+          value={requiredSkills}
+          onChange={(e) => setRequiredSkills(e.target.value)}
+        />
+      </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Required Skills (comma-separated)</label>
-                            <input
-                                type="text"
-                                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring focus:ring-[#0d3656]"
-                                value={requiredSkills}
-                                onChange={(e) => setRequiredSkills(e.target.value)}
-                            />
-                        </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Project Image</label>
+        <input
+          type="file"
+          accept="image/*"
+          className="w-full mt-1 p-1 border rounded-md focus:outline-none focus:ring focus:ring-[#0d3656]"
+          onChange={(e) => setProjectImage(e.target.files[0])}
+        />
+      </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Project Image</label>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring focus:ring-[#0d3656]"
-                                onChange={(e) => setProjectImage(e.target.files[0])}
-                            />
-                        </div>
+      <div className="flex justify-end">
+        <button
+          type="submit"
+          disabled={loading}
+          className={`px-3 py-1 bg-gradient-to-r from-[#152c5a] to-[#1e4d8b]  text-white rounded-md hover:bg-[#092c4a] ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+        >
+          {loading ? 'Creating...' : 'Create Project'}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
 
-                        <div className="flex justify-end">
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className={`px-4 py-2 bg-[#0d3656] text-white rounded-md hover:bg-[#092c4a] ${loading ? 'opacity-50 cursor-not-allowed' : ''
-                                    }`}
-                            >
-                                {loading ? 'Creating...' : 'Create Project'}
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
         </>
     );
 }
