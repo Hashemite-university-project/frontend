@@ -23,7 +23,6 @@ import Instructors from './pages/Admin/Instructors';
 import Projects from './pages/Admin/Projects';
 import Courses from './pages/Admin/Courses';
 import Reports from './pages/Admin/Reports';
-import Messages from './pages/Admin/Messages';
 import Categories from './pages/Admin/Categories';
 import Students from './pages/Admin/Students';
 import Admins from './pages/Admin/Admins';
@@ -36,6 +35,7 @@ import ProjectManagement from './pages/Instructor/projectsManagment/ProjectsMana
 import TasksWorkSpace from './pages/Instructor/projectsManagment/TasksWorkSpace';
 import AvailableProjects from './components/Projects/AvailableProjects';
 import ProjectInformation from './components/Projects/ProjectInformation';
+import PrivateMessages from './pages/Messages';
 function App() {
   return (
     <BrowserRouter>
@@ -220,11 +220,10 @@ function App() {
           }
         />
         <Route
-          path="/admin/messages"
+          path="/private/messages"
           element={
             <PrivateRoute>
-
-              <Messages />
+              <PrivateMessages />
             </PrivateRoute>
             
           }

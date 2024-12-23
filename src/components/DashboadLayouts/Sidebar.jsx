@@ -107,7 +107,15 @@ function Sidebar({ isDrawerOpen, closeDrawer }) {
                                     <span className="ml-3">Available Courses</span>
                                 </NavLink>
                             </li>
-                            
+                            <li>
+                        <NavLink
+                            to="/private/messages"
+                            className="flex items-center p-2 text-base font-medium text-white rounded-lg dark:text-white hover:bg-gray-500 dark:hover:bg-gray-700 group"
+                        >
+                                <FaEnvelope className="w-6 h-6 text-gray-100 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white" />
+                                <span className="ml-3">Messages</span>
+                            </NavLink>
+                 </li>
                         </>
                     )}
 
@@ -141,14 +149,14 @@ function Sidebar({ isDrawerOpen, closeDrawer }) {
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink
-                                    to="/admin/messages"
-                                    className="flex items-center p-2 text-base font-medium text-white rounded-lg dark:text-white hover:bg-gray-500 dark:hover:bg-gray-700 group"
-                                >
-                                    <FaEnvelope className="w-6 h-6 text-gray-100 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white" />
-                                    <span className="ml-3">Messages</span>
-                                </NavLink>
-                            </li>
+                        <NavLink
+                            to="/private/messages"
+                            className="flex items-center p-2 text-base font-medium text-white rounded-lg dark:text-white hover:bg-gray-500 dark:hover:bg-gray-700 group"
+                        >
+                                <FaEnvelope className="w-6 h-6 text-gray-100 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white" />
+                                <span className="ml-3">Messages</span>
+                            </NavLink>
+                 </li>
                         </>
                     )}
                     {role === 3 && (
@@ -208,14 +216,14 @@ function Sidebar({ isDrawerOpen, closeDrawer }) {
                       </NavLink>
                   </li>
                   <li>
-                      <NavLink
-                          to="/admin/messages"
-                          className="flex items-center p-2 text-base font-medium text-white rounded-lg dark:text-white hover:bg-gray-500 dark:hover:bg-gray-700 group"
-                      >
-                          <FaEnvelope className="w-6 h-6 text-gray-100 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white" />
-                          <span className="ml-3">Messages</span>
-                      </NavLink>
-                  </li>
+                        <NavLink
+                            to="/private/messages"
+                            className="flex items-center p-2 text-base font-medium text-white rounded-lg dark:text-white hover:bg-gray-500 dark:hover:bg-gray-700 group"
+                        >
+                                <FaEnvelope className="w-6 h-6 text-gray-100 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white" />
+                                <span className="ml-3">Messages</span>
+                            </NavLink>
+                 </li>
                   <li>
                       <NavLink
                           to="/admin/categories"

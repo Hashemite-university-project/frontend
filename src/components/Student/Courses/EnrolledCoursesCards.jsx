@@ -3,10 +3,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const EnrolledCoursesCards = (props) => {
-    const { courseID, courseImg, courseTitle, courseAuthor, courseType, courseLesson, courseDuration, courseReview } = props;
+    const { courseID, courseImg, courseTitle, courseAuthor, courseType, courseLesson, courseDuration, courseReview, border } = props;
 
     return (
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105">
+        <div
+            className={`bg-white rounded-lg overflow-hidden ${border ? 'border border-gray-100 ' : 'shadow-lg transition-transform transform hover:scale-105'
+                }`}
+        >
             <div className="relative h-40 md:h-32 lg:h-40">
                 <img className="w-full h-full object-cover" src={courseImg} alt={courseTitle} />
                 <span className="absolute top-2 left-2 bg-indigo-600 text-white text-xs font-semibold py-1 px-2 rounded">

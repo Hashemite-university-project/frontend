@@ -17,7 +17,7 @@ function HeroSection() {
         <div className="px-6 mx-auto sm:px-8 lg:px-12 max-w-7xl">
           <div className="w-full lg:w-4/4 xl:w-2/2">
             <h1 className="font-sans text-base font-normal tracking-tight text-white text-opacity-70">
-              Master the basics of baking
+            Master the fundamentals of coding.
             </h1>
             <div className="mt-6 tracking-tighter text-white">
               <span className="font-sans font-normal text-6xl block">
@@ -38,10 +38,8 @@ function HeroSection() {
                 className="font-serif italic font-normal text-6xl"
               />
             </div>
-            <p className="mt-12 w-96 font-sans text-base font-normal leading-7 text-white text-opacity-70">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eu
-              penatibus pellentesque dolor consequat ligula egestas massa
-              gravida. Porttitor venenatis enim praesent.
+            <p className="mt-12 w-2/3 font-sans text-base font-normal leading-7 text-white text-opacity-70">
+            At ScepHub, we empower individuals and teams to master new skills, work on real-world projects, and grow professionally. Whether you're learning to build or building to learn, our platform is designed to help you thrive in the ever-evolving tech industry.
             </p>
             <div className="flex items-center mt-5 space-x-3 sm:space-x-4">
               <Link
